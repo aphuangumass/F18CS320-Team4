@@ -8,3 +8,5 @@ it will prompt you to login to Github and choose a destination folder, the defau
 
 install Node.js version 8.12.0 from the web
 
+install npm...
+
