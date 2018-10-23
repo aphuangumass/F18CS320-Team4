@@ -10,3 +10,5 @@ install Node.js version 8.12.0 from the web
 
 install npm...
 
+10/23/2018 Edit by Eric Hsu
+Testing 
