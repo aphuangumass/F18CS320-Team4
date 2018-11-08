@@ -12,3 +12,9 @@ install npm....
 
 10/23/2018 Edit by Eric Hsu
 Testing 
+
+
+#Comments for getting Repo on Local Machine:
+
+1. Navigate to folder where you want to keep the project files
+2. Go to github, when seeing the project, near the top right of the page, there should be a green button called "Clone or Download". 
