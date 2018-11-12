@@ -8,7 +8,7 @@ const app = express();
 app.use(bodyParser.json());
 
 //DB config
-const db = require('../config/keys').mongoURI;
+const db = require('./config/keys').mongoURI;
 
 //Connect to Mongo
 mongoose.connect(db)
