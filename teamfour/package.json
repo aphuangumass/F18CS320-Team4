@@ -11,6 +11,7 @@
     "react-scripts": "2.1.1",
     "react-table": "^6.8.6"
   },
+  "main": "server.js",
   "scripsts": {
     "start": "react-scripts start",
     "server": "node server.js",
