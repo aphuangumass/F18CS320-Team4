@@ -1,6 +1,7 @@
 {
   "name": "teamfour",
   "version": "0.1.0",
+  "description": "File Browser Project given by HPE for the CS320/F18 UMass class",
   "private": true,
   "dependencies": {
     "express": "^4.16.4",
@@ -12,7 +13,7 @@
     "react-table": "^6.8.6"
   },
   "main": "server.js",
-  "scripsts": {
+  "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
     "build": "react-scripts build",
