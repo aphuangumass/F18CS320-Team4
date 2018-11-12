@@ -72,7 +72,7 @@ class App extends Component {
                 data={data}
                 columns={columns}
                 defaultPageSize = {3}
-                pageSizeOptions = {[3, 6, 9]}
+                pageSizeOptions = {[10, 50, 100]}
               />
           </div>      
     )
