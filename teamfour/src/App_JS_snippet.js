@@ -71,8 +71,7 @@ class App extends Component {
               <ReactTable
                 data={data}
                 columns={columns}
-                defaultPageSize = {3}
-                pageSizeOptions = {[10, 50, 100]}
+                defaultPageSize = {25}
               />
           </div>      
     )
