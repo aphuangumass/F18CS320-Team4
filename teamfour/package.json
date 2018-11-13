@@ -12,10 +12,9 @@
     "react-scripts": "2.1.1",
     "react-table": "^6.8.6"
   },
-  "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "server": "nodemon src/server.js",
+    "start": "node start",
+    "server": "nodemon server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
