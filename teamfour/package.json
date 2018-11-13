@@ -4,15 +4,8 @@
   "description": "File Browser Project given by HPE for the CS320/F18 UMass class",
   "private": true,
   "dependencies": {
-<<<<<<< HEAD
-<<<<<<< HEAD
     "ajv": "^6.5.5",
-=======
     "axios": "^0.18.0",
->>>>>>> Steven
-=======
-    "axios": "^0.18.0",
->>>>>>> Steven
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-scripts": "2.1.1",
