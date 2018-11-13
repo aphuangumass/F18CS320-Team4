@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
+<<<<<<< HEAD
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+=======
+import './App.css';
+import Table from './App_JS_snippet';
+>>>>>>> Steven
 
 class App extends Component {
   
@@ -67,6 +72,7 @@ class App extends Component {
     }]
 
     return (
+<<<<<<< HEAD
           <div>
               <ReactTable
                 data={data}
@@ -81,6 +87,12 @@ class App extends Component {
           </div>      
     )
 
+=======
+      <div className="App">
+          <Table />
+      </div>
+    );
+>>>>>>> Steven
   }
 }
 

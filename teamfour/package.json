@@ -1,9 +1,14 @@
 {
   "name": "teamfour",
   "version": "0.1.0",
+  "description": "File Browser Project given by HPE for the CS320/F18 UMass class",
   "private": true,
   "dependencies": {
+<<<<<<< HEAD
     "ajv": "^6.5.5",
+=======
+    "axios": "^0.18.0",
+>>>>>>> Steven
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-scripts": "2.1.1",
@@ -15,9 +20,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
+  "proxy": "http://localhost:5000/",
   "browserslist": [
     ">0.2%",
     "not dead",
