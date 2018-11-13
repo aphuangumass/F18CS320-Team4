@@ -5,7 +5,11 @@
   "private": true,
   "dependencies": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "ajv": "^6.5.5",
+=======
+    "axios": "^0.18.0",
+>>>>>>> Steven
 =======
     "axios": "^0.18.0",
 >>>>>>> Steven
