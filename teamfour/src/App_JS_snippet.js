@@ -3,10 +3,6 @@ import ReactTable from "react-table";
 import axios from 'axios';
 import "react-table/react-table.css";
 
-const dbData = 
-axios.get('/api/items')
-  .then(console.log(Response));
-
 const data = [{
   system: '9',
   company: 'Microsoft',
@@ -15,27 +11,37 @@ const data = [{
 }]
 
 class Table extends Component {
+  state ={
+    dbData: []
+  }
   
   render() {
+    axios.get('http://localhost:5000/api/items')
+    .then(res => this.setState({
+      dbData: res.data
+    }))
+
+    console.log(this.state.dbData)
 
     const columns = [{
-      Header: 'System',
-      accessor: 'system'
-    },{
+      Header: 'Serial Number',
+      accessor: 'serial'
+    }, {
       Header: 'Company Name',
       accessor: 'company'
     }, {
       Header: 'Model',
       accessor: 'model'
-    },{
-      Header: 'Serial Number',
-      accessor: 'serial'
-    }]
+    }, {
+      Header: 'Date',
+      accessor: 'date'
+    }
+]
 
     return (
           <div>
               <ReactTable
-                data={data}
+                data={this.state.dbData}
                 columns={columns}
                 defaultPageSize = {25}
               />
