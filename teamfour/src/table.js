@@ -21,7 +21,7 @@ class Table extends Component {
       dbData: res.data
     }))
 
-    console.log(this.state.dbData)
+    //console.log(this.state.dbData)
 
     const columns = [{
       Header: 'Serial Number',
