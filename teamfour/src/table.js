@@ -37,9 +37,9 @@ class Table extends Component {
       Header: 'Date',
       accessor: 'date'
     },{
-      Header: 'View',
-      id: 'click-me-button',
-      render: ({ row }) => (<button onClick={(e) => this.handleButtonClick(e, row)}>View</button>)
+        Header: 'Download',
+        accessor: 'link',
+        content: <a href=""></a>
     }
 ]
 
