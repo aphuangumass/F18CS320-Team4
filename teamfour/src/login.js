@@ -11,12 +11,18 @@ constructor(props){
 }
 Login(){
     console.log("this.state", this.state);
-    ReactDOM.render(<App />, document.getElementById('root'));
+    if(this.state.email=="admin@umass.edu"&&this.state.password=="password")
+    {ReactDOM.render(<App />, document.getElementById('root'));}
+
+    else{
+        console.log("Wrong pwrd/user");
+        console.log(this.state);
+    } 
 }
 render() {
     return (
       <div>
-          <h2>Log In</h2>
+          <h2 className = "LogHead">Log In</h2>
           <div>
               <input
               className = "textIn"
@@ -41,7 +47,5 @@ render() {
     );
   }
 }
-const style = {
- margin: 15,
-};
+
 export default Login;
