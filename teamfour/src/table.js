@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactTable from "react-table";
+//import ReactJson from 'react-json-view';
 import axios from 'axios';
 import "react-table/react-table.css";
 
@@ -36,6 +37,11 @@ class Table extends Component {
       Header: 'Date',
       accessor: 'date'
     }
+    // {
+    //   Header: 'content',
+    //   accessor:  'content',
+    // }
+
 ]
 
     return (
@@ -45,6 +51,7 @@ class Table extends Component {
                 columns={columns}
                 defaultPageSize = {25}
               />
+              
           </div>      
     )
 
