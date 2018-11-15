@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
-// import ReactTable from "react-table";
-import "react-table/react-table.css";
-import './App.css';
-import Table from './components/table.js';
-=======
 import ReactTable from "react-table";
 //
 import "react-table/react-table.css";
 import './App.css';
-import Table from './table.js';
+import Table from './components/table.js';
 import ReactDOM from 'react-dom';
 import Login from './login';
->>>>>>> e29bb23e8e99c8c07757489653d6bc50702e3eab
 
 class App extends Component {
   
