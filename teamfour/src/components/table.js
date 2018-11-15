@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import ReactTable from "react-table";
-import ReactJson from 'react-json-view';//need to install still
 import axios from 'axios';
 import "react-table/react-table.css";
+
+
 
 const data = [{
   system: '9',
@@ -11,11 +12,28 @@ const data = [{
   serial: 'r43kf'
 }]
 
+
+//handles button click
+//grabs correct json from row and converts it to a string
+//creates blob to be downloaded
+//gives blob url
+//makes a tempLink object so file can be given name/fileExtension
+//clicks tempLink to download file
+function handleButtonClick (e, row) {
+  var json = JSON.stringify(row.row._original.content, null, ' ');
+  var blob = new Blob([json], {type: "octet/stream"});
+  var url  = window.URL.createObjectURL(blob);
+  var tempLink = document.createElement('a');
+  tempLink.href = url;
+  tempLink.setAttribute('download', 'filename.json');
+  tempLink.click();
+}
+
 class Table extends Component {
   state ={
     dbData: []
   }
-  
+
   render() {
     axios.get('http://localhost:5000/api/items')
     .then(res => this.setState({
@@ -37,9 +55,13 @@ class Table extends Component {
       Header: 'Date',
       accessor: 'date'
     },{
-      Header: 'View',
-      id: 'click-me-button',
-      render: ({ row }) => (<button onClick={(e) => this.handleButtonClick(e, row)}>View</button>)
+      Header: 'Download',
+      accessor: 'content',
+      //creates a new component inside of this column in the table
+      Cell : row => (
+        //button calls its clicky function when clicked
+        <button onClick={(e) => handleButtonClick(e, row)}>Download</button>
+      )
     }
 ]
 
@@ -49,27 +71,6 @@ class Table extends Component {
                 data={this.state.dbData}
                 columns={columns}
                 defaultPageSize = {25}
-                getTdProps={(state, rowInfo, column, instance) => {
-                  return {
-                    onClick: (e, handleOriginal) => {
-                      console.log("A Td Element was clicked!");
-                      console.log("it produced this event:", e);
-                      console.log("It was in this column:", column);
-                      console.log("It was in this row:", rowInfo);
-                      console.log("It was in this table instance:", instance);
-                      // <ReactJson src={state} />
-                      
-                      // IMPORTANT! React-Table uses onClick internally to trigger
-                      // events like expanding SubComponents and pivots.
-                      // By default a custom 'onClick' handler will override this functionality.
-                      // If you want to fire the original onClick handler, call the
-                      // 'handleOriginal' function.
-                      if (handleOriginal) {
-                        handleOriginal();
-                      }
-                    }
-                  };
-                }}
               />
           </div>      
     )
