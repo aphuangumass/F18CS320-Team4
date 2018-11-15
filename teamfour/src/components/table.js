@@ -57,7 +57,7 @@ class Table extends Component {
                       console.log("It was in this column:", column);
                       console.log("It was in this row:", rowInfo);
                       console.log("It was in this table instance:", instance);
-                      <ReactJson src={my_json_object} />
+                      // <ReactJson src={state} />
                       
                       // IMPORTANT! React-Table uses onClick internally to trigger
                       // events like expanding SubComponents and pivots.
