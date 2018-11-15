@@ -3,9 +3,9 @@ import ReactTable from "react-table";
 //
 import "react-table/react-table.css";
 import './App.css';
-import Table from './table.js';
+import Table from './components/table.js';
 import ReactDOM from 'react-dom';
-import Login from './login';
+import Login from './components/login';
 
 class App extends Component {
   
