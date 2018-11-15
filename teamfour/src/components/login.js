@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import App from '../App';
 class Login extends Component {
 constructor(props){
     super(props)
