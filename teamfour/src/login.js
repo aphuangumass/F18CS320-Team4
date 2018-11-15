@@ -9,21 +9,20 @@ constructor(props){
         password: ''
     }
 }
-Validate(){
-    //if the username and password work login
-    console.log("VALIDATING");
-    if(this.state.email === "admin@umass.edu" && this.state.password === "password"){
-        console.log("this.state", this.state);
-        ReactDOM.render(<App />, document.getElementById('root'));
-    }
+Login(){
+    console.log("this.state", this.state);
+    if(this.state.email=="admin@umass.edu"&&this.state.password=="password")
+    {ReactDOM.render(<App />, document.getElementById('root'));}
+
     else{
-        window.confirm("incorrect login credentials");
-    }
+        console.log("Wrong pwrd/user");
+        console.log(this.state);
+    } 
 }
 render() {
     return (
       <div>
-          <h2>Log In</h2>
+          <h2 className = "LogHead">Log In</h2>
           <div>
               <input
               className = "textIn"
@@ -40,7 +39,7 @@ render() {
               <button
               className = "btn btn-primary"
               type = "button"
-              onClick={() => this.Validate()}
+              onClick={() => this.Login()}
               > Log In</button>
 
           </div>
@@ -48,4 +47,5 @@ render() {
     );
   }
 }
+
 export default Login;
