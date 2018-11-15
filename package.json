@@ -9,7 +9,8 @@
         "express": "^4.16.4",
         "mongoose": "^5.3.11",
         "nodemon": "^1.18.6",
-        "react": "^16.6.0"
+        "react": "^16.6.0",
+        "react-json-view": "^1.19.1"
     },
     "scripts": {
         "client-install": "npm install --prefix teamfour",

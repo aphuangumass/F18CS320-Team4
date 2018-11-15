@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactTable from "react-table";
+import ReactJson from 'react-json-view';//need to install still
 import axios from 'axios';
 import "react-table/react-table.css";
 
@@ -35,6 +36,10 @@ class Table extends Component {
     }, {
       Header: 'Date',
       accessor: 'date'
+    },{
+      Header: 'View',
+      id: 'click-me-button',
+      render: ({ row }) => (<button onClick={(e) => this.handleButtonClick(e, row)}>View</button>)
     }
 ]
 
@@ -44,6 +49,27 @@ class Table extends Component {
                 data={this.state.dbData}
                 columns={columns}
                 defaultPageSize = {25}
+                getTdProps={(state, rowInfo, column, instance) => {
+                  return {
+                    onClick: (e, handleOriginal) => {
+                      console.log("A Td Element was clicked!");
+                      console.log("it produced this event:", e);
+                      console.log("It was in this column:", column);
+                      console.log("It was in this row:", rowInfo);
+                      console.log("It was in this table instance:", instance);
+                      <ReactJson src={my_json_object} />
+                      
+                      // IMPORTANT! React-Table uses onClick internally to trigger
+                      // events like expanding SubComponents and pivots.
+                      // By default a custom 'onClick' handler will override this functionality.
+                      // If you want to fire the original onClick handler, call the
+                      // 'handleOriginal' function.
+                      if (handleOriginal) {
+                        handleOriginal();
+                      }
+                    }
+                  };
+                }}
               />
           </div>      
     )
