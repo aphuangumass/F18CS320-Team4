@@ -1,5 +1,5 @@
 {
-    "name": "teamfour",
+    "name": "server",
     "version": "0.1.0",
     "description": "File Browser Project given by HPE for the CS320/F18 UMass class",
     "private": true,
