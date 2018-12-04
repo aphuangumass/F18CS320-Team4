@@ -10,6 +10,7 @@
         "mongoose": "^5.3.11",
         "nodemon": "^1.18.6",
         "react": "^16.6.0",
+        "react-bootstrap": "^0.32.4",
         "react-json-view": "^1.19.1"
     },
     "scripts": {

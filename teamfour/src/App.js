@@ -17,9 +17,9 @@ class App extends Component {
     return (
       
       <div className="App">
-      <div className="App">
-          <h2>Infosight Filebrowser v.1</h2>
-          
+      <div className="topBar">
+        <topBar />
+
       </div>
           <button
               className = "btn btn-primary"
