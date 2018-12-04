@@ -3,9 +3,16 @@ const Schema = mongoose.Schema;
 
 //Create Schema
 const ItemSchema = new Schema({
+    name: String,
     serial: Number,
     company: String,
     model: String,
+    fullModel: String,
+    osVersion: String,
+    totalCapacity: Number,
+    freeCapacity: Number,
+    updated: Date,
+    authorized: JSON,
     date: Date,
     content: JSON
 });

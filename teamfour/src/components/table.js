@@ -16,7 +16,7 @@ function handleButtonClick (e, row) {
   var url  = window.URL.createObjectURL(blob);
   var tempLink = document.createElement('a');
   tempLink.href = url;
-  tempLink.setAttribute('download', 'filename.json');
+  tempLink.setAttribute('download', row.row._original.name);
   tempLink.click();
 }
 
@@ -44,6 +44,9 @@ class Table extends Component {
       accessor: 'model'
     }, {
       Header: 'Date',
+      accessor: 'date'
+    }, {
+      Header: 'Capacity Less than 30',
       accessor: 'date'
     },{
       Header: 'Download',

@@ -11,7 +11,7 @@ constructor(props){
 }
 Login(){
     console.log("this.state", this.state);
-    if(this.state.email=="admin@umass.edu"&&this.state.password=="password")
+    if(this.state.email === "admin@umass.edu" && this.state.password === "password")
     {ReactDOM.render(<App />, document.getElementById('root'));}
 
     else{
