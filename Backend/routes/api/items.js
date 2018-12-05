@@ -9,26 +9,25 @@ const Item = require('../../models/Items');
 // @access  Public
 router.get('/', (req, res) => {
     Item.find()
-        .then(item => res.json(item))
+        .then(item => res.set({'Content-Type': 'application/json; charset=utf-8'}).send(JSON.stringify(item, null, 4)))
 });
 
-// @route   GET api/data/company/:c
-// @desc    Get tenants with "c" id
+// @route   GET api/data/items/:type/:c
+// @desc    Get db entries have a "type" with an "id"
 // @access  Public
-router.get('/company/:c', (req, res) => {
-    Item.find({"company": req.params.c})
-        .then(item => res.json(item))
+router.get('/search/:type/:c', (req, res) => {
+    console.log(req.params.type);
+    Item.find({[req.params.type] : req.params.c})
+        .then(item => res.set({'Content-Type': 'application/json; charset=utf-8'}).send(JSON.stringify(item, null, 4)))
 });
 
-// @route   GET api/data/tenants/:c
+// @route   GET api/data/items/tenants/:c
 // @desc    Get tenants with "c" id
 // @access  Public
 router.get('/tenants/:c', (req, res) => {
-    Item.find({"authorized.tenants": req.params.c})
-        .then(item => res.json(item))
+    Item.find({"authorized.tenants" : {$in: req.params.c.split('-')}})
+        .then(item => res.set({'Content-Type': 'application/json; charset=utf-8'}).send(JSON.stringify(item, null, 4)))
 });
-
-
 
 // @route   POST api/data
 // @desc    Create a Post
