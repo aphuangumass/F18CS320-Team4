@@ -26,12 +26,14 @@ class Table extends Component {
   }
 
   render() {
-    axios.get('http://localhost:5000/api/items')
+    axios.get('./api/items')
     .then(res => this.setState({
       dbData: res.data
     }))
 
     //console.log(this.state.dbData)
+
+    var dateOptions = {year: "numeric", month: "short", day: "numeric" };
 
     const columns = [{
       Header: 'Serial Number',
@@ -44,11 +46,9 @@ class Table extends Component {
       accessor: 'model'
     }, {
       Header: 'Date',
-      accessor: 'date'
+      id: 'date',
+      accessor: d => new Date(d.date).toLocaleDateString('en-US', dateOptions)
     }, {
-      Header: 'Capacity Less than 30',
-      accessor: 'date'
-    },{
       Header: 'Download',
       accessor: 'content',
       //creates a new component inside of this column in the table

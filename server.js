@@ -8,10 +8,10 @@ const app = express();
 app.use(express.json());
 
 //DB config
-const db = require('./config/keys').mongoURI;
+const Itemsdb = require('./config/keys').mongoURI;
 
 //Connect to Mongo
-mongoose.connect(db, {useNewUrlParser: true})
+mongoose.connect(Itemsdb, {useNewUrlParser: true})
     .then(() => console.log('MongoDB Connected...'))
     .catch(err => console.log(err));
 

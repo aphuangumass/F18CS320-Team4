@@ -4,7 +4,10 @@ const Schema = mongoose.Schema;
 //Create Schema
 const ItemSchema = new Schema({
     name: String,
-    serial: Number,
+    serial: {
+        type: Number,
+        default: 00000
+       },
     company: String,
     model: String,
     fullModel: String,

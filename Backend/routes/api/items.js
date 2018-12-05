@@ -12,11 +12,11 @@ router.get('/', (req, res) => {
         .then(item => res.json(item))
 });
 
-// @route   GET api/data/company/id
-// @desc    Get All Data
+// @route   GET api/data/tenants/:c
+// @desc    Get tenants with
 // @access  Public
-router.get('/company/:c', (req, res) => {
-    Item.find({company: req.params.c})
+router.get('/tenants/:c', (req, res) => {
+    Item.find({"authorized.tenants": req.params.c})
         .then(item => res.json(item))
 });
 
@@ -59,7 +59,10 @@ function formatDate(str) {
 // @access  Public
 
 router.delete('/:id', (req, res) => {
-    Item.findById(req.params.id).then(item => item.remove().then(() => res.json({success: true})))
+    Item.deleteOne({'serial': req.params.id}, (err, obj) => {
+        if (err) throw err;
+        res.json({success: true})
+    })
 });
 
 module.exports = router;
