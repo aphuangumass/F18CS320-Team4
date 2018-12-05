@@ -6,26 +6,21 @@ import './App.css';
 import Table from './components/table.js';
 import ReactDOM from 'react-dom';
 import Login from './components/login';
+import Topbar from './components/Topbar.js';
 
 class App extends Component {
   
-  LogOut(){
-    ReactDOM.render(<Login />, document.getElementById('root'));
-  }
+
 
   render() {
     return (
       
       <div className="App">
       <div className="topBar">
-        <topBar />
+        <Topbar/>
 
       </div>
-          <button
-              className = "btn btn-primary"
-              type = "button"
-              onClick = {() => this.LogOut()} 
-          > Log Out</button>
+          
           <Table />
       </div>
     );
