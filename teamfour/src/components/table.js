@@ -43,7 +43,7 @@ class Table extends Component {
       accessor: 'company'
     }, {
       Header: 'Model',
-      accessor: 'model'
+      accessor: 'fullModel'
     }, {
       Header: 'Date',
       id: 'date',

@@ -12,13 +12,23 @@ router.get('/', (req, res) => {
         .then(item => res.json(item))
 });
 
+// @route   GET api/data/company/:c
+// @desc    Get tenants with "c" id
+// @access  Public
+router.get('/company/:c', (req, res) => {
+    Item.find({"company": req.params.c})
+        .then(item => res.json(item))
+});
+
 // @route   GET api/data/tenants/:c
-// @desc    Get tenants with
+// @desc    Get tenants with "c" id
 // @access  Public
 router.get('/tenants/:c', (req, res) => {
     Item.find({"authorized.tenants": req.params.c})
         .then(item => res.json(item))
 });
+
+
 
 // @route   POST api/data
 // @desc    Create a Post
