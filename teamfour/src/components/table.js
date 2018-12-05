@@ -4,7 +4,11 @@ import ReactTable from "react-table";
 import axios from 'axios';
 import "react-table/react-table.css";
 
-
+/*
+import { render } from "react-dom";
+import { makeData, Logo, Tips } from "./Utils";
+import matchSorter from "match-sorter";
+*/
 
 const data = [{
   system: '9',
@@ -13,6 +17,11 @@ const data = [{
   serial: 'r43kf'
 }]
 
+class Less30space extends React.Component {
+  render() {
+    return <span>{this.props.value <= 30 ? "Yes" : "No"}</span>;
+  }
+}
 
 //handles button click
 //grabs correct json from row and converts it to a string
@@ -31,8 +40,38 @@ function handleButtonClick (e, row) {
 }
 
 class Table extends Component {
-  state ={
-    dbData: []
+  constructor() {
+    super();
+    this.state = {
+      dbData: [],
+      filtered: [],
+      filterAll: ""
+    };
+    this.filterAll = this.filterAll.bind(this);
+  }
+
+  onFilteredChange(filtered) {
+    // console.log('filtered:',filtered);
+    // const { sortedData } = this.reactTable.getResolvedState();
+    // console.log('sortedData:', sortedData);
+
+    // extra check for the "filterAll"
+    if (filtered.length > 1 && this.state.filterAll.length) {
+      // NOTE: this removes any FILTER ALL filter
+      const filterAll = "";
+      this.setState({
+        filtered: filtered.filter(item => item.id != "all"),
+        filterAll
+      });
+    } else this.setState({ filtered });
+  }
+
+  filterAll(e) {
+    const { value } = e.target;
+    const filterAll = value;
+    const filtered = [{ id: "all", value: filterAll }];
+    // NOTE: this completely clears any COLUMN filters
+    this.setState({ filterAll, filtered });
   }
 
   render() {
@@ -73,6 +112,8 @@ class Table extends Component {
 
     return (
           <div>
+              Filter All:{" "}
+              <input value={this.state.filterAll} onChange={this.filterAll} />
               <ReactTable
                 data={this.state.dbData}
                 columns={columns}
