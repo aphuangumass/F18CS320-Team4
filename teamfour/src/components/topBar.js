@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import Login from './components/login';
+import Login from './login';
 import ReactDOM from 'react-dom';
 import {
   Collapse,
@@ -41,7 +41,11 @@ export default class Example extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/components/">Components</NavLink>
+                <button
+              className = "btn btn-primary"
+              type = "button"
+              onClick={() => this.LogOut()}
+              > LogOut</button>
               </NavItem>
               <NavItem>
                 <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
