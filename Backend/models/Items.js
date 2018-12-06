@@ -6,11 +6,14 @@ const ItemSchema = new Schema({
     name: String,
     serial: {
         type: Number,
-        default: 00000
-       },
+        required: true
+    },
     company: String,
     model: String,
-    fullModel: String,
+    fullModel: {
+        type: String,
+        required: true
+    },
     osVersion: String,
     totalCapacity: Number,
     freeCapacity: Number,

@@ -16,7 +16,6 @@ router.get('/', (req, res) => {
 // @desc    Get db entries have a "type" with an "id"
 // @access  Public
 router.get('/search/:type/:c', (req, res) => {
-    console.log(req.params.type);
     Item.find({[req.params.type] : req.params.c})
         .then(item => res.set({'Content-Type': 'application/json; charset=utf-8'}).send(JSON.stringify(item, null, 4)))
 });
@@ -29,12 +28,25 @@ router.get('/tenants/:c', (req, res) => {
         .then(item => res.set({'Content-Type': 'application/json; charset=utf-8'}).send(JSON.stringify(item, null, 4)))
 });
 
+// @route   GET api/data/items/list/:c
+// @desc    Get db entries that follow at least one group of c, separated by '-'
+// @access  Public
+// router.get('/list/:c', (req, res) => {
+//     Item.find()
+//             .then(item => {
+//             res.send(JSON.stringify(item, null, 4).foreach(x => {
+//                 console.log(x[[req.params.c]])
+//                 x[[req.params.c]]
+//             }))
+//         })
+// });
+
 // @route   POST api/data
 // @desc    Create a Post
 // @access  Public
 router.post('/', (req, res) => {
     const newItem = new Item({
-        name: req.body.serialNumberInserv + '-' + formatDate(req.body.updated),
+        name: req.body.serialNumberInserv + '-' + new Date(req.body.updated).toISOString().substr(0, 10) + '.json',
         serial: req.body.serialNumberInserv,
         company: req.body.system.companyName,
         model: req.body.system.model,
@@ -49,19 +61,6 @@ router.post('/', (req, res) => {
     });
     newItem.save().then(item => res.json(item));
 });
-
-// Helper method to generate name for the POST api
-function formatDate(str) {
-    var date = new Date(str), 
-    month = '' + (date.getMonth() + 1),
-    day = '' + date.getDate(),
-    year = date.getFullYear();
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return [year, month, day].join('-');
-}
 
 // @route   DELETE api/items/:id
 // @desc    Delete A Item

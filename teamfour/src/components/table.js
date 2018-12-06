@@ -33,7 +33,7 @@ class Table extends Component {
 
     //console.log(this.state.dbData)
 
-    var dateOptions = {year: "numeric", month: "short", day: "numeric" };
+    var dateOptions = {year: "numeric", month: "short", day: "numeric"};
 
     const columns = [{
       Header: 'Serial Number',
