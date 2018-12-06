@@ -21,7 +21,8 @@ export default class Example extends React.Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      userEmail: 'fake@email.gov'
     };
   }
   LogOut(){
@@ -40,15 +41,19 @@ export default class Example extends React.Component {
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
+
+              <NavItem>
+                <img src="/user-1633249.svg"></img>
+              </NavItem>
+              <NavItem>
+                <NavLink >fake@email.gov</NavLink>
+              </NavItem>
               <NavItem>
                 <button
               className = "btn btn-primary"
               type = "button"
               onClick={() => this.LogOut()}
               > LogOut</button>
-              </NavItem>
-              <NavItem>
-                <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
               </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
