@@ -22,7 +22,7 @@ router.get('/search/:type/:c', (req, res) => {
 });
 
 // @route   GET api/data/items/tenants/:c
-// @desc    Get tenants with "c" id
+// @desc    Get db entries that follow at least one group of c, separated by '-'
 // @access  Public
 router.get('/tenants/:c', (req, res) => {
     Item.find({"authorized.tenants" : {$in: req.params.c.split('-')}})
@@ -73,5 +73,34 @@ router.delete('/:id', (req, res) => {
         res.json({success: true})
     })
 });
+
+// @route   GET api/tenants
+// @desc    Easter Egg
+// @access  Public
+router.get('/tenants', (req, res)=> {
+    res.set({'Content-Type': 'text/plain; charset=utf-8'}).send("\"snails see the beauty in every inch\" \n \t\t\t-The Format")
+})
+
+// @route   GET api/tenants
+// @desc    Easter Egg
+// @access  Public
+router.get('/search', (req, res)=> {
+    res.set({'Content-Type': 'text/plain; charset=utf-8'}).send(
+        "What happens when two snails get into a fight? \nThey slug it out!\n\n"
+        + "Why doesn't McDonald's serve escargot? \nBecause it's not fast food.\n\n"
+        + "How do snails get their shells so shiny? \nThey use snail varnish! \n\n"
+        + "Where do you find giant snails?\nAt the end of giants fingers! \n\n" 
+        + "What does a snail wear to go dancing??\nEscargogo boots.  \n\n"
+        + "Why is the snail the strongest animal? \nBecause he carries a house on his back! \n\n"
+        + "How do snails make important calls? \nOn shell phones. \n\n "
+        + "What happened when Turbo lost his shell? \nHe began to feel sluggish. \n\n"
+        + "What did the snail say to the other who had hit him and run off? \nI'll get you next slime! \n\n"
+        + "What was the snail doing on the highway? \nAbout one mile a day! \n\n" 
+        + "What is the definition of a slug? \nA snail with a housing problem! \n\n" 
+        + "What did the snail say as he slipped down the wall? \nHow slime flies! \n\n"
+        + "How do you know your kitchen floor is dirty? \nThe snails leave a trail on the floor that reads \"clean me\"! \n\n"
+        + "I felt so guilty after I stepped on a snail this morning. \nYou should of seen him, he looked genuinely crushed.")
+})
+
 
 module.exports = router;
