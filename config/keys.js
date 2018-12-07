@@ -1,3 +1,5 @@
 module.exports = {
-    mongoURI: 'mongodb://admin:jeff@18.223.229.195:27017/test'
-}
+  mongoItems: 'mongodb://54.211.35.130/items',
+  mongoURI: 'mongodb://54.211.35.130/testfoo',
+    secretOrKey: "secret"
+  };
