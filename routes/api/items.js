@@ -31,15 +31,19 @@ router.get('/tenants/:c', (req, res) => {
 // @route   GET api/data/items/list/:c
 // @desc    Get db entries that follow at least one group of c, separated by '-'
 // @access  Public
-// router.get('/list/:c', (req, res) => {
-//     Item.find()
-//             .then(item => {
-//             res.send(JSON.stringify(item, null, 4).foreach(x => {
-//                 console.log(x[[req.params.c]])
-//                 x[[req.params.c]]
-//             }))
-//         })
-// });
+router.get('/list/:c', (req, res) => {
+    Item.find({},{[req.params.c]: 1, _id: 0 })
+        .then(item => res.set({'Content-Type': 'application/json; charset=utf-8'}).send(JSON.stringify(item, null, 4))
+
+        // .then(item => { 
+        //     const str = req.params.c
+        //     // console.log(item[0] + " " + req.params.c)
+        //     res.send(
+        //         console.log(item.map(x => {
+        //         x[str]
+        //     })))}
+        ).catch(err => console.log(err))
+});
 
 // @route   POST api/data
 // @desc    Create a Post

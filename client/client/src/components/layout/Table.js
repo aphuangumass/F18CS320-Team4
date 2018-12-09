@@ -26,7 +26,9 @@ class Table extends Component {
   }
 
   render() {
-    axios.get('http://localhost:5000/api/items/search/serial/20703')
+    const tenant = '' + this.props.tenant
+
+    axios.get('http://localhost:5000/api/items/tenants/' + tenant)
     .then(res => this.setState({
       dbData: res.data
     }))
@@ -56,13 +58,8 @@ class Table extends Component {
         //button calls its clicky function when clicked
         <button onClick={(e) => handleButtonClick(e, row)}>Download</button>
       )
-    }
-    // {
-    //   Header: 'content',
-    //   accessor:  'content',
-    // }
+    }]
 
-]
 
     return (
           <div>

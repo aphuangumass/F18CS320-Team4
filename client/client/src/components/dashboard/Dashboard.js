@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
 
 import Table from "../layout/Table";
+import { unwatchFile } from 'fs';
 
 class Dashboard extends Component {
   onLogoutClick = e => {
@@ -46,7 +47,7 @@ return (
           </div>
         </div>
         <div>
-          <Table />
+          <Table tenant={user.tenant} />
         </div>
       </div>
       
