@@ -6,7 +6,9 @@
   "scripts": {
     "test": "mocha",
     "start": "node server.js",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client/client/",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "proxy": "http://localhost:5000",
   "author": "Eden Mendel",
