@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const item = require('./routes/api/items');
 
 const app = express();
-
+app.use('/static', express.static('assets/snailTeamSix.png'))
 app.use(express.json());
 
 //DB config
