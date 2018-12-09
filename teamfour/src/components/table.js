@@ -4,16 +4,6 @@ import ReactTable from "react-table";
 import axios from 'axios';
 import "react-table/react-table.css";
 
-
-
-const data = [{
-  system: '9',
-  company: 'Microsoft',
-  model: '901',
-  serial: 'r43kf'
-}]
-
-
 //handles button click
 //grabs correct json from row and converts it to a string
 //creates blob to be downloaded

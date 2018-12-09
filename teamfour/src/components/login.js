@@ -13,7 +13,7 @@ constructor(props){
 }
 Login(){
     console.log("this.state", this.state);
-    if(this.state.email=="admin@umass.edu"&&this.state.password=="password")
+    if(this.state.email==="admin@umass.edu"&&this.state.password==="password")
     {ReactDOM.render(<App />, document.getElementById('root'));}
 
     else{
@@ -64,7 +64,7 @@ render() {
               </div>
               
           </div>
-          <img src={snail} style={imageStyle}></img>
+          <img src={snail} style={imageStyle} alt={"Snail Logo"}></img>
     </div>
     );
   }
