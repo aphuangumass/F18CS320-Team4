@@ -20,8 +20,10 @@ class App extends Component {
         <Topbar/>
 
       </div>
+      <div className="Table">
+      <Table /></div>
           
-          <Table />
+          
       </div>
     );
   }
