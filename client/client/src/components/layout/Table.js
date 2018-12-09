@@ -26,9 +26,9 @@ class Table extends Component {
   }
 
   render() {
-    const tenant = '' + this.props.tenant
+    const tenant = this.props.tenant
 
-    axios.get('http://localhost:5000/api/items/tenants/' + tenant)
+    axios.get('http://localhost:5000/api/items/tenants/' + tenant.join(','))
     .then(res => this.setState({
       dbData: res.data
     }))

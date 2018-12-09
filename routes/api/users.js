@@ -31,7 +31,7 @@ router.post("/register", (req, res) => {
             name: req.body.name,
             email: req.body.email,
             password: req.body.password,
-            tenant : req.body.tenant
+            tenant : req.body.tenant.toString().split(',').map(x => x.trim())
         });
         // Hash password before saving in database
         bcrypt.genSalt(10, (err, salt) => {

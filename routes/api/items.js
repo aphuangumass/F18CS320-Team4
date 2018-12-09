@@ -24,7 +24,7 @@ router.get('/search/:type/:c', (req, res) => {
 // @desc    Get db entries that follow at least one group of c, separated by '-'
 // @access  Public
 router.get('/tenants/:c', (req, res) => {
-    Item.find({"authorized.tenants" : {$in: req.params.c.split('-')}})
+    Item.find({"authorized.tenants" : {$in: req.params.c.split(',')}})
         .then(item => res.set({'Content-Type': 'application/json; charset=utf-8'}).send(JSON.stringify(item, null, 4)))
 });
 
@@ -34,14 +34,6 @@ router.get('/tenants/:c', (req, res) => {
 router.get('/list/:c', (req, res) => {
     Item.find({},{[req.params.c]: 1, _id: 0 })
         .then(item => res.set({'Content-Type': 'application/json; charset=utf-8'}).send(JSON.stringify(item, null, 4))
-
-        // .then(item => { 
-        //     const str = req.params.c
-        //     // console.log(item[0] + " " + req.params.c)
-        //     res.send(
-        //         console.log(item.map(x => {
-        //         x[str]
-        //     })))}
         ).catch(err => console.log(err))
 });
 

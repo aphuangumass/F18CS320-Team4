@@ -27,7 +27,7 @@ return (
                 You are logged into a full-stack{" "}
                 <span style={{ fontFamily: "monospace" }}>MERN</span> app 👏
               </p>
-              <b>Full info</b> {user.tenant.split(" ")[0]}
+              <b>Full info</b> {user.tenant.join(', ')}
               <p className="flow-text grey-text text-darken-1">
                 
               </p>
