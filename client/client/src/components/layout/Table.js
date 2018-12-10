@@ -100,7 +100,6 @@ class Table extends Component {
                 onFilteredChange={this.onFilteredChange.bind(this)}
 
                 data={this.state.dbData}
-                filterable
                 defaultFilterMethod={(filter, row) =>
                   String(row[filter.id]) === filter.value
                 }
@@ -109,28 +108,16 @@ class Table extends Component {
                 {
                   Header: 'Serial Number',
                   accessor: 'serial',
-                  filterMethod: (filter, rows) =>
-                    matchSorter(rows, filter.value, { keys: ["serial"] }),
-                  filterAll: true
                 }, {
                   Header: 'Company Name',
                   accessor: 'company',
-                  filterMethod: (filter, rows) =>
-                    matchSorter(rows, filter.value, { keys: ["company"] }),
-                  filterAll: true
                 }, {
                   Header: 'Model',
                   accessor: 'fullModel',
-                  filterMethod: (filter, rows) =>
-                    matchSorter(rows, filter.value, { keys: ["fullModel"] }),
-                  filterAll: true
                 }, {
                   Header: 'Date',
                   id: 'date',
                   accessor: d => new Date(d.date).toLocaleDateString('en-US', dateOptions),
-                  filterMethod: (filter, rows) =>
-                  matchSorter(rows, filter.value, { keys: ["date"] }),
-                filterAll: true
                 }, {
                   Header: 'Download',
                   accessor: 'content',
