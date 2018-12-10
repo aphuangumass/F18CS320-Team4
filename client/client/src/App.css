@@ -22,6 +22,10 @@
   color: #61dafb;
 }
 
+.input-field textarea:focus + label {
+  color: #2196f3 !important;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

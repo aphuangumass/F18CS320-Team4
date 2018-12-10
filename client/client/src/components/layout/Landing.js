@@ -5,16 +5,22 @@ class Landing extends Component {
     return (
       <div style={{ height: "75vh" }} className="container valign-wrapper">
         <div className="row">
+        <img src={require("./logo_resize.png")} alt="logo" class ="brand-logo center" hspace="180" vspace="2"></img>
           <div className="col s12 center-align">
-            <h4>
-              <b>Build</b> a login/auth app with the{" "}
-              <span style={{ fontFamily: "monospace" }}>MERN</span> stack from
-              scratch
-            </h4>
-            <p className="flow-text grey-text text-darken-1">
-              Create a (minimal) full-stack app with user authentication via
-              passport and JWTs
+
+            
+
+            <h3>
+              <p className="white-text">
+              <b>HPE InfoSight™</b> File Browser {" "}
+              </p>
+              <span style={{ fontFamily: "monospace" }}></span> 
+            </h3>
+            <h6>
+            <p className="white-text text-darken-1">
+              Analyze and view files from active systems
             </p>
+            </h6>
             <br />
             <Link
                 to="/register"
@@ -23,7 +29,7 @@ class Landing extends Component {
                 borderRadius: "3px",
                 letterSpacing: "1.5px"
               }}
-              className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+              className="btn btn-large waves-effect waves-light hoverable"
             >
               Register
             </Link>
