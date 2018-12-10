@@ -3,6 +3,7 @@ import ReactTable from "react-table";
 //import ReactJson from 'react-json-view';
 import axios from 'axios';
 import "react-table/react-table.css";
+import matchSorter from 'match-sorter'
 
 //handles button click
 //grabs correct json from row and converts it to a string
@@ -21,34 +22,34 @@ function handleButtonClick (e, row) {
 }
 
 class Table extends Component {
-  state ={
-    dbData: [],
-    query: '',
-    results: []
+  constructor() {
+    super();
+    this.state ={
+      dbData: [],
+      filtered: [],
+      filterAll: ""
+    };
+    this.filterAll = this.filterAll.bind(this)
   }
 
-  
-  getInfo = () => {
-    const tenant = this.props.tenant
-    axios.get('http://localhost:5000/api/items/tenants/' + tenant.join(','))
-      .then(({ data }) => {
-        this.setState({
-          results: data.data
-        })
-      })
-  }
+  onFilteredChange(filtered) {
+    // extra check for the "filterAll"
+    if (filtered.length > 1 && this.state.filterAll.length) {
+      // NOTE: this removes any FILTER ALL filter
+      const filterAll = "";
+      this.setState({
+        filtered: filtered.filter(item => item.id != "all"),
+        filterAll
+      });
+    } else this.setState({ filtered });
+  }  
 
-  handleInputChange = () => {
-    this.setState({
-      query: this.search.value
-    }, () => {
-      if (this.state.query && this.state.query.length > 1) {
-        if (this.state.query.length % 2 === 0) {
-          this.getInfo()
-        }
-      } else if (!this.state.query) {
-      }
-    })
+  filterAll(e) {
+    const { value } = e.target;
+    const filterAll = value;
+    const filtered = [{ id: "all", value: filterAll }];
+    // NOTE: this completely clears any COLUMN filters
+    this.setState({ filterAll, filtered });
   }
 
   render() {
@@ -62,7 +63,7 @@ class Table extends Component {
     console.log(this.state.dbData[0])
 
     var dateOptions = {year: "numeric", month: "short", day: "numeric"};
-
+/*
     const columns = [{
       Header: 'Serial Number',
       accessor: 'serial'
@@ -84,25 +85,81 @@ class Table extends Component {
         //button calls its clicky function when clicked
         <button onClick={(e) => handleButtonClick(e, row)}>Download</button>
       )
-    }]
-
+    },]
+*/
 
     return (
           <div>
-              <form>
-                <input
-                  placeholder="Search for..."
-                  ref={input => this.search = input}
-                  onChange={this.handleInputChange}
-                  />
-                <p>{this.state.query}</p>
-              </form>
+            Filter All:{" "}
+              <input value={this.state.filterAll} onChange={this.filterAll} />
               <ReactTable
+                filtered={this.state.filtered}
+                ref={r => (this.reactTable = r)}
+                onFilteredChange={this.onFilteredChange.bind(this)}
                 data={this.state.dbData}
-                columns={columns}
+                filterable
+                defaultFilterMethod={(filter, row) =>
+                  String(row[filter.id]) === filter.value
+                }
+
+                columns={[
+                {
+                  Header: 'Serial Number',
+                  accessor: 'serial',
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["serial"] }),
+                  filterAll: true
+                }, {
+                  Header: 'Company Name',
+                  accessor: 'company',
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["company"] }),
+                  filterAll: true
+                }, {
+                  Header: 'Model',
+                  accessor: 'fullModel',
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["fullModel"] }),
+                  filterAll: true
+                }, {
+                  Header: 'Date',
+                  id: 'date',
+                  accessor: d => new Date(d.date).toLocaleDateString('en-US', dateOptions),
+                  filterMethod: (filter, rows) =>
+                  matchSorter(rows, filter.value, { keys: ["date"] }),
+                filterAll: true
+                }, {
+                  Header: 'Download',
+                  accessor: 'content',
+                  //creates a new component inside of this column in the table
+                  Cell : row => (
+                    //button calls its clicky function when clicked
+                    <button onClick={(e) => handleButtonClick(e, row)}>Download</button>
+                  )
+                }, {
+                  Header: "All",
+                  id: "all",
+                  width: 0,
+                  resizable: false,
+                  sortable: false,
+                  Filter: () => {},
+                  getProps: () => {
+                    return {
+                      // style: { padding: "0px"}
+                    };
+                  },
+                  filterMethod: (filter, rows) => {
+                    const result = matchSorter(rows, filter.value, {
+                      keys: ["firstName", "lastName"],
+                      threshold: matchSorter.rankings.WORD_STARTS_WITH
+                    });
+                    console.log("row[0]:", result[0]);
+                    return result;
+                  },
+                  filterAll: true
+                }]}
                 defaultPageSize = {10}
               />
-              
           </div>      
     )
 
