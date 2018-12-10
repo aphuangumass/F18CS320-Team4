@@ -153,7 +153,7 @@ class Table extends Component {
                   },
                   filterMethod: (filter, rows) => {
                     const result = matchSorter(rows, filter.value, {
-                      keys: ["firstName", "lastName"],
+                      keys: ['serial', 'company', 'fullmodel'],
                       threshold: matchSorter.rankings.WORD_STARTS_WITH
                     });
                     console.log("row[0]:", result[0]);
