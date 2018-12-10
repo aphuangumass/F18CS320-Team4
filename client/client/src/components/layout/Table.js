@@ -56,13 +56,21 @@ class Table extends Component {
       //creates a new component inside of this column in the table
       Cell : row => (
         //button calls its clicky function when clicked
-        <button onClick={(e) => handleButtonClick(e, row)}>Download</button>
+        <button style={{
+          borderRadius:'4px',
+          border: '4px solid #ff8d6d',
+          backgroundColor:'#ff8d6d'
+        
+        }}onClick={(e) => handleButtonClick(e, row)}>Download</button>
+        
       )
     }]
 
 
     return (
-          <div>
+          <div style={{
+            backgroundColor:'white'
+          }}>
               <ReactTable
                 data={this.state.dbData}
                 columns={columns}
