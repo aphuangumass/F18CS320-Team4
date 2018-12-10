@@ -19,7 +19,7 @@ class Navbar extends Component {
           <span className="emailSpot">user@email.com</span>
           <button class="right"
               style={{
-                borderRadius: "3px",
+                borderRadius: '3px',
                 webkitFlex:'none'
               }}
               onClick={this.onLogoutClick}
