@@ -27,7 +27,7 @@ class Table extends Component {
     this.state ={
       dbData: [],
       filtered: [],
-      filterAll: "",
+      filterAll: ""
     };
     this.filterAll = this.filterAll.bind(this)
   }
@@ -63,35 +63,11 @@ class Table extends Component {
     console.log(this.state.dbData[0])
 
     var dateOptions = {year: "numeric", month: "short", day: "numeric"};
-/*
-    const columns = [{
-      Header: 'Serial Number',
-      accessor: 'serial'
-    }, {
-      Header: 'Company Name',
-      accessor: 'company'
-    }, {
-      Header: 'Model',
-      accessor: 'fullModel'
-    }, {
-      Header: 'Date',
-      id: 'date',
-      accessor: d => new Date(d.date).toLocaleDateString('en-US', dateOptions)
-    }, {
-      Header: 'Download',
-      accessor: 'content',
-      //creates a new component inside of this column in the table
-      Cell : row => (
-        //button calls its clicky function when clicked
-        <button onClick={(e) => handleButtonClick(e, row)}>Download</button>
-      )
-    },]
-*/
 
     return (
           <div>
-            Filter All:
-              <input value={this.state.filterAll} onChange={this.filterAll} />
+            Search by...
+              <input value={this.state.filterAll} placeholder="Serial #, Company, or Model" onChange={this.filterAll} />
               <ReactTable
 
                 filtered={this.state.filtered}
@@ -107,17 +83,17 @@ class Table extends Component {
                 columns={[
                 {
                   Header: 'Serial Number',
-                  accessor: 'serial',
+                  accessor: 'serial'
                 }, {
                   Header: 'Company Name',
-                  accessor: 'company',
+                  accessor: 'company'
                 }, {
                   Header: 'Model',
-                  accessor: 'fullModel',
+                  accessor: 'fullModel'
                 }, {
                   Header: 'Date',
                   id: 'date',
-                  accessor: d => new Date(d.date).toLocaleDateString('en-US', dateOptions),
+                  accessor: d => new Date(d.date).toLocaleDateString('en-US', dateOptions)
                 }, {
                   Header: 'Download',
                   accessor: 'content',
@@ -140,7 +116,7 @@ class Table extends Component {
                   },
                   filterMethod: (filter, rows) => {
                     const result = matchSorter(rows, filter.value, {
-                      keys: ['serial', 'company', 'fullmodel'],
+                      keys: ['serial', 'company', 'fullModel'],
                       threshold: matchSorter.rankings.WORD_STARTS_WITH
                     });
                     console.log("row[0]:", result[0]);
