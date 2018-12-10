@@ -27,7 +27,7 @@ class Table extends Component {
     this.state ={
       dbData: [],
       filtered: [],
-      filterAll: ""
+      filterAll: "",
     };
     this.filterAll = this.filterAll.bind(this)
   }
@@ -38,7 +38,7 @@ class Table extends Component {
       // NOTE: this removes any FILTER ALL filter
       const filterAll = "";
       this.setState({
-        filtered: filtered.filter(item => item.id != "all"),
+        filtered: filtered.filter(item => item.id !== "all"),
         filterAll
       });
     } else this.setState({ filtered });
@@ -90,12 +90,15 @@ class Table extends Component {
 
     return (
           <div>
-            Filter All:{" "}
+            Filter All:
               <input value={this.state.filterAll} onChange={this.filterAll} />
               <ReactTable
+
                 filtered={this.state.filtered}
+
                 ref={r => (this.reactTable = r)}
                 onFilteredChange={this.onFilteredChange.bind(this)}
+
                 data={this.state.dbData}
                 filterable
                 defaultFilterMethod={(filter, row) =>
