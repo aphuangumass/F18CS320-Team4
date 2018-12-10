@@ -29,7 +29,8 @@ class Table extends Component {
 
   
   getInfo = () => {
-    axios.get(`${API_URL}?api_key=${API_KEY}&prefix=${this.state.query}&limit=7`)
+    const tenant = this.props.tenant
+    axios.get('http://localhost:5000/api/items/tenants/' + tenant.join(','))
       .then(({ data }) => {
         this.setState({
           results: data.data
