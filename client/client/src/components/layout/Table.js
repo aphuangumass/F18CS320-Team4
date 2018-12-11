@@ -28,7 +28,7 @@ class Table extends Component {
   render() {
     
     const tenant = this.props.tenant
-    const filter = this.props.search
+    const filter = this.props.search.toString().toUpperCase()
     // const filter = (this.props.search === '') ? '' : this.props.search.toString()
 
     axios.get('http://localhost:5000/api/items/tenants/' + tenant.join(','))
@@ -90,11 +90,11 @@ class Table extends Component {
     return (
           <div>
               <ReactTable
-                data={this.state.dbData.filter(x => filter === ""
-                    || x.company === filter
-                    || x.model === filter
-                    || x.fullModel === filter
-                    || x.osVersion === filter
+                data={this.state.dbData.filter(x => x.serial.toString().toUpperCase().includes(filter)
+                    || (x.company !== '' && x.company.toString().toUpperCase().includes(filter))
+                    || x.model.toString().toUpperCase().includes(filter)
+                    || x.fullModel.toString().toUpperCase().includes(filter)
+                    || x.osVersion.toString().toUpperCase().includes(filter)
                     || (filter.charAt(2) === '%' && Number(filter.substring(0,2)) <= Math.floor((1 - x.capacity[0]/x.capacity[1]) * 100))
                 )}
                 columns={columns}
