@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
+import { connect } from "react-redux";
+import { logoutUser } from "../../actions/authActions";
+import user from "../dashboard/Dashboard.js";
+import PropTypes from "prop-types";
+
 class Navbar extends Component {
   onLogoutClick = e => {
     e.preventDefault();
@@ -15,18 +20,29 @@ class Navbar extends Component {
       }}>
 
           <img src={require("./hpelogo2_resize.png")} alt="logo" class ="left" hspace="180" vspace="10"></img>
-          
-          <span className="emailSpot">user@email.com</span>
           <button class="right"
               style={{
                 borderRadius: '3px',
-                webkitFlex:'none'
+                webkitFlex:'none',
+                float:'right',
+                marginRight:'15%',
+                marginTop:'5px',
+                backgroundColor:'	#2ad2c9'
               }}
               onClick={this.onLogoutClick}
               className="btn btn-large waves-effect waves-light hoverable blue accent-3"
             >
               Logout
             </button>
+          
+          <span className="emailSpot" style={{
+            float:'right',
+            fontSize:'20px'
+          }}> {user.name.split(" ")[0]}</span>
+          <img src={require("./userWhite.png")} alt="user" class ="img" hspace="10" vspace="15" style={{
+            float:'right'
+          }}></img>
+          
           {/*<a href="#" class="left">Logo</a>*/}
 
           {/*}
