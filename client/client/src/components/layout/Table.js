@@ -22,20 +22,38 @@ function handleButtonClick (e, row) {
 
 class Table extends Component {
   state ={
-    dbData: []
+    dbData: [],
   }
 
   render() {
+    
     const tenant = this.props.tenant
+    const filter = this.props.search
+    // const filter = (this.props.search === '') ? '' : this.props.search.toString()
 
     axios.get('http://localhost:5000/api/items/tenants/' + tenant.join(','))
-    .then(res => this.setState({
+    .then(res => {if(this.state.dbData !== res.data) this.setState({
       dbData: res.data
-    }))
+    //   .filter(x => filter === ""
+    //     || x.serial === filter
+    //     || x.company === filter
+    //     || x.model === filter
+    //     || x.fullModel === filter
+    //     || x.osVersion === filter
+    //     || (filter.charAt(2) === '%' && Number(filter.substring(0,2)) <= Math.floor((1 - x.capacity[0]/x.capacity[1]) * 100))
+    // )
+  })})
 
-    console.log(this.state.dbData[0])
+    console.log(filter)
+
+    // console.log(this.state.dbData[0])
 
     var dateOptions = {year: "numeric", month: "short", day: "numeric"};
+
+    const capStyle = {
+      backgroundColor: '#fa8072',
+      borderRadius: '5px'
+    }
 
     const columns = [{
       Header: 'Serial Number',
@@ -51,6 +69,15 @@ class Table extends Component {
       id: 'date',
       accessor: d => new Date(d.date).toLocaleDateString('en-US', dateOptions)
     }, {
+      Header: 'Capacity used',
+      id: 'capacity',
+      accessor: c => {
+        var per = Math.floor((1 - c.capacity[0] / c.capacity[1]) * 100)
+        return ((per >= 70) ? 
+          (<div style={capStyle}>{per}%</div>):
+          (<div>{per}%</div>)
+        )}
+    }, {
       Header: 'Download',
       accessor: 'content',
       //creates a new component inside of this column in the table
@@ -60,13 +87,18 @@ class Table extends Component {
       )
     }]
 
-
     return (
           <div>
               <ReactTable
-                data={this.state.dbData}
+                data={this.state.dbData.filter(x => filter === ""
+                    || x.company === filter
+                    || x.model === filter
+                    || x.fullModel === filter
+                    || x.osVersion === filter
+                    || (filter.charAt(2) === '%' && Number(filter.substring(0,2)) <= Math.floor((1 - x.capacity[0]/x.capacity[1]) * 100))
+                )}
                 columns={columns}
-                defaultPageSize = {10}
+                defaultPageSize = {15}
               />
               
           </div>      

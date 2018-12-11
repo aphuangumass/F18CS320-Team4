@@ -11,7 +11,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "proxy": "http://localhost:5000",
-  "author": "Eden Mendel",
+  "author": "Team 4 of F18CS320 UMass Amherst",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.18.0",
@@ -19,6 +19,7 @@
     "body-parser": "^1.18.3",
     "classnames": "^2.2.6",
     "concurrently": "^4.1.0",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
     "is-empty": "^1.2.0",
     "jsonwebtoken": "^8.4.0",
