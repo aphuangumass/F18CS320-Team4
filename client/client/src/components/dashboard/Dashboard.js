@@ -19,16 +19,9 @@ render() {
     const { user } = this.props.auth;
     console.log(user);
 return (
-      <div style={{ height: "75vh" }} className="container valign-wrapper">
-        <div className="row">
-          <div className="col s12 center-align">
-          </div>
-        </div>
         <div>
           <Table tenant={user.tenant}/>
         </div>
-      </div>
-      
     );
   }
 }

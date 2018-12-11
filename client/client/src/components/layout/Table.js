@@ -4,6 +4,7 @@ import ReactTable from "react-table";
 import axios from 'axios';
 import "react-table/react-table.css";
 import ReactJson from 'react-json-view'
+import { Container, Row, Col } from 'react-grid-system';
 
 
 
@@ -26,7 +27,7 @@ function handleDownloadClick (e, row) {
 class Table extends Component {
   state ={
     dbData: [],
-    treeJSON: JSON
+    treeJSON: {}
   }
   handleViewClick (e, row) {
     var json = row.row._original.content;
@@ -35,9 +36,9 @@ class Table extends Component {
   }
 
   render() {
-    const tenant = '' + this.props.tenant
-
-    axios.get('http://localhost:5000/api/items/')
+    const tenant = this.props.tenant
+    //Doesnt Work, remove /tenants/ + tenant.join(',') to run
+    axios.get('http://localhost:5000/api/items/tenants/' + tenant.join(','))
     .then(res => this.setState({
       dbData: res.data
     }))
@@ -76,19 +77,32 @@ class Table extends Component {
     }]
 
 
-    return (
-          <div>
-              <ReactTable
-                data={this.state.dbData}
-                columns={columns}
-                defaultPageSize = {10}
-              />
-              <h5>File TreeView</h5>
-              <ReactJson src={this.state.treeJSON} collapsed={true} />
-              
-          </div>      
+    return (  
+      <Container>
+        <Row>
+          <Col style={treeWrapper}>
+            <h5>File TreeView</h5>
+            <ReactJson src={this.state.treeJSON} collapsed={true} enableClipboard={false}/>
+          </Col>
+          <Col>
+            <ReactTable
+              data={this.state.dbData}
+              columns={columns}
+              defaultPageSize = {10}
+            />
+          </Col>
+        </Row>
+      </Container>
     )
 
   }
+}
+const treeWrapper = {
+  borderStyle: 'solid',
+  borderColor: 'black',
+  backgroundColor: '#D3D3D3',
+  margin: "25px",
+  borderWidth: '3px',
+  borderRadius: '30px'
 }
 export default Table;
