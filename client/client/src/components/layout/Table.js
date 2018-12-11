@@ -3,7 +3,6 @@ import ReactTable from "react-table";
 //import ReactJson from 'react-json-view';
 import axios from 'axios';
 import "react-table/react-table.css";
-import JSONTree from 'react-json-tree'
 import ReactJson from 'react-json-view'
 
 
@@ -86,7 +85,6 @@ class Table extends Component {
               />
               <h5>File TreeView</h5>
               <ReactJson src={this.state.treeJSON} collapsed={true} />
-              {/* <JSONTree data={this.state.treeJSON} invertTheme={true}/> */}
               
           </div>      
     )
