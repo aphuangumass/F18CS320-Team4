@@ -3,9 +3,10 @@ import ReactTable from "react-table";
 //import ReactJson from 'react-json-view';
 import axios from 'axios';
 import "react-table/react-table.css";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import ReactJson from 'react-json-view';
+import JSONTree from 'react-json-tree'
+import ReactJson from 'react-json-view'
+
+
 
 //handles button click
 //grabs correct json from row and converts it to a string
@@ -26,11 +27,12 @@ function handleDownloadClick (e, row) {
 class Table extends Component {
   state ={
     dbData: [],
-    treeJSON: ""
+    treeJSON: JSON
   }
   handleViewClick (e, row) {
-    var json = JSON.stringify(row.row._original.content, null, ' ');
-    this.setState ({treeJSON: json}, () => {console.log("Viewing new JSON")});
+    var json = row.row._original.content;
+    this.setState ({treeJSON: json});
+    console.log(this.state.treeJSON);
   }
 
   render() {
@@ -77,15 +79,14 @@ class Table extends Component {
 
     return (
           <div>
-              <h5>File TreeView</h5>
-              <div>
-              <ReactJson src={this.treeJSON}/>
-              </div>
               <ReactTable
                 data={this.state.dbData}
                 columns={columns}
                 defaultPageSize = {10}
               />
+              <h5>File TreeView</h5>
+              <ReactJson src={this.state.treeJSON} collapsed={true} />
+              {/* <JSONTree data={this.state.treeJSON} invertTheme={true}/> */}
               
           </div>      
     )
