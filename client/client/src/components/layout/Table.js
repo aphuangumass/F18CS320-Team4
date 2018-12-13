@@ -29,7 +29,7 @@ class Table extends Component {
   searchWithin = (str) => {
     return this.state.dbData.filter(entry => str === '' 
     || (entry.serial !== null && entry.serial.toString().toUpperCase().includes(str))
-    // || (entry.company !== null && entry.company.toString().toUpperCase().includes(str))
+    || (entry.company !== '' && entry.company.toString().toUpperCase().includes(str))
     || (entry.model !== null && entry.model.toString().toUpperCase().includes(str))
     || (entry.fullModel !== null &&entry.fullModel.toString().toUpperCase().includes(str))
     || (entry.osVersion !== null &&entry.osVersion.toString().toUpperCase().includes(str))
@@ -37,7 +37,6 @@ class Table extends Component {
     )
   }
   
-
   render() {
     
     const tenant = this.props.tenant
@@ -57,16 +56,11 @@ class Table extends Component {
     // )
   })})
 
-    console.log(filter)
+    // console.log(filter)
 
     // console.log(this.state.dbData[0])
 
-    var dateOptions = {year: "numeric", month: "short", day: "numeric"};
-
-    const capStyle = {
-      backgroundColor: '#fa8072',
-      borderRadius: '5px'
-    }
+    const dateOptions = {year: "numeric", month: "short", day: "numeric"};
 
     const columns = [{
       Header: 'Serial Number',
@@ -85,23 +79,22 @@ class Table extends Component {
       // var per = Math.floor((1 - c.capacity[0] / c.capacity[1]) * 100,
       Header: 'Capacity used',
       accessor: 'capacity',
-      // sortMethod: (a, b) => {
-      //   console.log(Number(a.children[0]),b)
-      //   return ((a.capacity[0] / a.capacity[1]) > (b.capacity[0] / b.capacity[1])) ? 1 : -1;
-      // },
+      sortMethod: (a, b) => {
+        // console.log(Number(a[0]),b[1])
+        return ((a[0] / a[1]) > (b[0] / b[1])) ? 1 : -1;
+      },
       Cell: row => (
         <div
           style={{
             width: '100%',
-            height: '100%',
-            backgroundColor: '#eaeaea',
-            borderRadius: '2px'
+            height: '50%'
           }}
-        >{Math.floor((1 - row.value[0] / row.value[1]) * 100)}%
+          >
+         {Math.floor((1 - row.value[0] / row.value[1]) * 100)}%
           <div
             style={{
               width: `${Math.floor((1 - row.value[0] / row.value[1]) * 100)}%`,
-              height: '100%',
+              height: '50%',
               backgroundColor: Math.floor((1 - row.value[0] / row.value[1]) * 100) < 70 ? '#85cc00'
                 // : Math.floor((1 - row.value[0] / row.value[1]) * 100) > 33 ? '#ffbf00'
                 : '#ff2e00',
@@ -132,7 +125,9 @@ class Table extends Component {
               <ReactTable
                 data={this.searchWithin(filter)}
                 columns={columns}
-                defaultPageSize = {15}>
+                defaultPageSize = {15}
+                // pivotBy ={["Company Name"]}
+                >
                 {/* {(state, makeTable, instance) => {
     return (
       <div>
