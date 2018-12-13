@@ -23,7 +23,20 @@ function handleButtonClick (e, row) {
 class Table extends Component {
   state ={
     dbData: [],
+    filteredData: []
   }
+
+  searchWithin = (str) => {
+    return this.state.dbData.filter(entry => str === '' 
+    || (entry.serial !== null && entry.serial.toString().toUpperCase().includes(str))
+    // || (entry.company !== null && entry.company.toString().toUpperCase().includes(str))
+    || (entry.model !== null && entry.model.toString().toUpperCase().includes(str))
+    || (entry.fullModel !== null &&entry.fullModel.toString().toUpperCase().includes(str))
+    || (entry.osVersion !== null &&entry.osVersion.toString().toUpperCase().includes(str))
+    || (str.charAt(2) === '%' && Number(str.substring(0,2)) <= Math.floor((1 - entry.capacity[0]/entry.capacity[1]) * 100))
+    )
+  }
+  
 
   render() {
     
@@ -69,14 +82,41 @@ class Table extends Component {
       id: 'date',
       accessor: d => new Date(d.date).toLocaleDateString('en-US', dateOptions)
     }, {
+      // var per = Math.floor((1 - c.capacity[0] / c.capacity[1]) * 100,
       Header: 'Capacity used',
-      id: 'capacity',
-      accessor: c => {
-        var per = Math.floor((1 - c.capacity[0] / c.capacity[1]) * 100)
-        return ((per >= 70) ? 
-          (<div style={capStyle}>{per}%</div>):
-          (<div>{per}%</div>)
-        )}
+      accessor: 'capacity',
+      // sortMethod: (a, b) => {
+      //   console.log(Number(a.children[0]),b)
+      //   return ((a.capacity[0] / a.capacity[1]) > (b.capacity[0] / b.capacity[1])) ? 1 : -1;
+      // },
+      Cell: row => (
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: '#eaeaea',
+            borderRadius: '2px'
+          }}
+        >{Math.floor((1 - row.value[0] / row.value[1]) * 100)}%
+          <div
+            style={{
+              width: `${Math.floor((1 - row.value[0] / row.value[1]) * 100)}%`,
+              height: '100%',
+              backgroundColor: Math.floor((1 - row.value[0] / row.value[1]) * 100) < 70 ? '#85cc00'
+                // : Math.floor((1 - row.value[0] / row.value[1]) * 100) > 33 ? '#ffbf00'
+                : '#ff2e00',
+              borderRadius: '2px',
+              transition: 'all .2s ease-out'
+            }}
+          />
+        </div>
+      )
+      // accessor: c => {
+      //   var per = Math.floor((1 - c.capacity[0] / c.capacity[1]) * 100)
+      //   return ((per >= 70) ? 
+      //     (<div style={capStyle}>{per}%</div>):
+      //     (<div>{per}%</div>)
+      //   )}
     }, {
       Header: 'Download',
       accessor: 'content',
@@ -90,20 +130,26 @@ class Table extends Component {
     return (
           <div>
               <ReactTable
-                data={this.state.dbData.filter(x => x.serial.toString().toUpperCase().includes(filter)
-                    || (x.company !== '' && x.company.toString().toUpperCase().includes(filter))
-                    || x.model.toString().toUpperCase().includes(filter)
-                    || x.fullModel.toString().toUpperCase().includes(filter)
-                    || x.osVersion.toString().toUpperCase().includes(filter)
-                    || (filter.charAt(2) === '%' && Number(filter.substring(0,2)) <= Math.floor((1 - x.capacity[0]/x.capacity[1]) * 100))
-                )}
+                data={this.searchWithin(filter)}
                 columns={columns}
-                defaultPageSize = {15}
-              />
+                defaultPageSize = {15}>
+                {/* {(state, makeTable, instance) => {
+    return (
+      <div>
+        <pre>
+          <code>
+            state.allVisibleColumns ==={" "}
+            {JSON.stringify(state.allVisibleColumns, null, 4)}
+          </code>
+        </pre>
+        {makeTable()}
+      </div>
+    );
+  }} */}
+              </ReactTable>
               
           </div>      
     )
-
   }
 }
 
