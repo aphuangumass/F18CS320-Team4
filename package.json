@@ -1,26 +1,37 @@
 {
-    "name": "teamfour",
-    "version": "0.1.0",
-    "description": "File Browser Project given by HPE for the CS320/F18 UMass class",
-    "private": true,
-    "main": "server.js",
-    "dependencies": {
-        "axios": "^0.18.0",
-        "concurrently": "^4.1.0",
-        "express": "^4.16.4",
-        "mongoose": "^5.3.11",
-        "nodemon": "^1.18.6",
-        "react": "^16.6.0",
-        "react-dom": "^16.6.3",
-        "react-json-view": "^1.19.1",
-        "react-scripts": "^2.1.1",
-        "react-table": "^6.8.6"
-    },
-    "scripts": {
-        "client-install": "npm install --prefix teamfour",
-        "start": "node server.js",
-        "server": "nodemon server.js",
-        "client": "npm start --prefix teamfour",
-        "dev": "concurrently \"npm run server\" \"npm run client\""
-    }
+  "name": "loginmern",
+  "version": "1.0.0",
+  "description": "login w token",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client/client/",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "proxy": "http://localhost:5000",
+  "author": "Team 4 of F18CS320 UMass Amherst",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "classnames": "^2.2.6",
+    "concurrently": "^4.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "is-empty": "^1.2.0",
+    "jsonwebtoken": "^8.4.0",
+    "jwt-decode": "^2.2.0",
+    "mongoose": "^5.3.14",
+    "nodemon": "^1.18.7",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "react-redux": "^5.1.1",
+    "react-router-dom": "^4.3.1",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
+    "validator": "^10.9.0"
+  }
 }

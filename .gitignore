@@ -1,0 +1,8 @@
+node_modules
+# you never commit nodE_mOdUlEs -- team 1
+client/client/node_modules
+# You all use different editors don't commit editor files
+.idea
+# also not everyone uses mac so don't commit .DS_Store
+client/.DS_Store
+.DS_Store

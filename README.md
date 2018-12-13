@@ -13,9 +13,6 @@ install npm....
 10/23/2018 Edit by Eric Hsu
 Testing 
 
-<<<<<<< HEAD
-This is Zach's Branch
-=======
 
 #Comments for getting Repo on Local Machine:
 Make sure to have Git installed on your local machine
@@ -46,4 +43,3 @@ Things to note when programming in a team:
 - if you mess up, don't freak out, we as a team will fix it.
 - commit often to make sure things still work locally.
 - Make pull requests on GitHub website to let others review your code.
->>>>>>> 7a9bfca45eac22133a84ce61c5cfcb71edd933ef

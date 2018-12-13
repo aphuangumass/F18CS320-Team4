@@ -3,11 +3,23 @@ const Schema = mongoose.Schema;
 
 //Create Schema
 const ItemSchema = new Schema({
-    serial: Number,
+    name: String,
+    serial: {
+        type: Number,
+        required: true
+    },
     company: String,
     model: String,
+    fullModel: {
+        type: String,
+        required: true
+    },
+    osVersion: String,
+    updated: Date,
+    authorized: JSON,
     date: Date,
-    content: JSON
+    content: JSON,
+    capacity: [Number]
 });
 
 module.exports = Item = mongoose.model('items', ItemSchema);
