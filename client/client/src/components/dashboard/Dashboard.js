@@ -38,7 +38,24 @@ render() {
 return (
       <div style={{ height: "75vh" }} className="container valign-wrapper">
         <div className="row">
-          <div className="col s12 center-align">
+          
+        </div>
+        <div className="row">
+        <div class="input-field inline">
+            {/* <form onSubmit={this.handleSubmit}> */}
+              <label for="search_bar">Search...</label>
+              <input value={this.state.value} onChange={this.handleChange}
+                id="search_bar" type="text"/>
+              {/* <button class="waves-effect waves-light btn-small" type="submit" name="action">Submit */}
+              {/* </button> */}
+              {/* </form> */}
+            </div>
+          <div>
+           <Table tenant={user.tenant} search={this.state.value}/>
+          </div>
+          
+        </div>
+        <div className="col s12 center-align">
             <h4>
               <b>Hey there,</b> {user.name.split(" ")[0]}
               <p className="flow-text grey-text text-darken-1">
@@ -50,15 +67,7 @@ return (
                 
               </p>
             </h4>
-            <div class="input-field inline">
-            {/* <form onSubmit={this.handleSubmit}> */}
-              <label for="search_bar">Search...</label>
-              <input value={this.state.value} onChange={this.handleChange}
-                id="search_bar" type="text"/>
-              {/* <button class="waves-effect waves-light btn-small" type="submit" name="action">Submit */}
-              {/* </button> */}
-              {/* </form> */}
-            </div>
+            
             <button
               style={{
                 width: "150px",
@@ -73,11 +82,6 @@ return (
             </button>
           </div>
         </div>
-        <div>
-          <Table tenant={user.tenant} search={this.state.value}/>
-        </div>
-      </div>
-      
     );
   }
 }

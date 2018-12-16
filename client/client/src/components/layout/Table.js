@@ -20,19 +20,60 @@ function handleButtonClick (e, row) {
   tempLink.click();
 }
 
+// const requestData = (pageSize, page, sorted, filtered) => {
+//   return new Promise((resolve, reject) => {
+//     // You can retrieve your data however you want, in this case, we will just use some local data.
+//     var filteredData = []
+//     axios.get('http://localhost:5000/api/items/tenants/' + tenant.join(','))
+//     .then(res => {let filteredData = res.data})
+
+//     // You can use the filters in your request, but you are responsible for applying them.
+//     if (filtered.length) {
+//       filteredData = filtered.reduce((filteredSoFar, nextFilter) => {
+//         return filteredSoFar.filter(row => {
+//           return (row[nextFilter.id] + "").includes(nextFilter.value);
+//         });
+//       }, filteredData);
+//     }
+//     // You can also use the sorting in your request, but again, you are responsible for applying it.
+//     const sortedData = _.orderBy(
+//       filteredData,
+//       sorted.map(sort => {
+//         return row => {
+//           if (row[sort.id] === null || row[sort.id] === undefined) {
+//             return -Infinity;
+//           }
+//           return typeof row[sort.id] === "string"
+//             ? row[sort.id].toLowerCase()
+//             : row[sort.id];
+//         };
+//       }),
+//       sorted.map(d => (d.desc ? "desc" : "asc"))
+//     );
+
+    // You must return an object containing the rows of the current page, and optionally the total pages number.
+//     const res = {
+//       rows: sortedData.slice(pageSize * page, pageSize * page + pageSize),
+//       pages: Math.ceil(filteredData.length / pageSize)
+//     };
+
+//     // Here we'll simulate a server response with 500ms of delay.
+//     setTimeout(() => resolve(res), 500);
+//   });
+// };
+
 class Table extends Component {
   state ={
-    dbData: [],
-    filteredData: []
+    dbData: []
   }
 
   searchWithin = (str) => {
     return this.state.dbData.filter(entry => str === '' 
-    || (entry.serial !== null && entry.serial.toString().toUpperCase().includes(str))
-    || (entry.company !== '' && entry.company.toString().toUpperCase().includes(str))
-    || (entry.model !== null && entry.model.toString().toUpperCase().includes(str))
-    || (entry.fullModel !== null &&entry.fullModel.toString().toUpperCase().includes(str))
-    || (entry.osVersion !== null &&entry.osVersion.toString().toUpperCase().includes(str))
+    || (entry.serial !== undefined && entry.serial.toString().toUpperCase().includes(str))
+    || (entry.company !== undefined && entry.company.toString().toUpperCase().includes(str))
+    || (entry.model !== undefined && entry.model.toString().toUpperCase().includes(str))
+    || (entry.fullModel !== undefined &&entry.fullModel.toString().toUpperCase().includes(str))
+    || (entry.osVersion !== undefined &&entry.osVersion.toString().toUpperCase().includes(str))
     || (str.charAt(2) === '%' && Number(str.substring(0,2)) <= Math.floor((1 - entry.capacity[0]/entry.capacity[1]) * 100))
     )
   }
@@ -46,14 +87,6 @@ class Table extends Component {
     axios.get('http://localhost:5000/api/items/tenants/' + tenant.join(','))
     .then(res => {if(this.state.dbData !== res.data) this.setState({
       dbData: res.data
-    //   .filter(x => filter === ""
-    //     || x.serial === filter
-    //     || x.company === filter
-    //     || x.model === filter
-    //     || x.fullModel === filter
-    //     || x.osVersion === filter
-    //     || (filter.charAt(2) === '%' && Number(filter.substring(0,2)) <= Math.floor((1 - x.capacity[0]/x.capacity[1]) * 100))
-    // )
   })})
 
     // console.log(filter)

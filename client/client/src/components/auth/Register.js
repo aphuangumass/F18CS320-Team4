@@ -54,6 +54,7 @@ onSubmit = e => {
   this.props.registerUser(newUser, this.props.history); 
   };
 render() {
+    document.body.style = 'background: #ffffff;';
     const { errors } = this.state;
 return (
       <div className="container">

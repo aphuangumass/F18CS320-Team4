@@ -12,11 +12,11 @@ router.get('/', (req, res) => {
         .then(item => res.set({'Content-Type': 'application/json; charset=utf-8'}).send(JSON.stringify(item, null, 4)))
 });
 
-// @route   GET api/data/items/:type/:c
+// @route   GET api/data/tenants/:tenant/items/:type/:id
 // @desc    Get db entries have a "type" with an "id"
 // @access  Public
-router.get('/search/:type/:c', (req, res) => {
-    Item.find({[req.params.type] : req.params.c})
+router.get('/tenants/:c/search/:type/:id', (req, res) => {
+    Item.find({"authorized.tenants" : {$in: req.params.c.split(',')}, [req.params.type] : req.params.id})
         .then(item => res.set({'Content-Type': 'application/json; charset=utf-8'}).send(JSON.stringify(item, null, 4)))
 });
 
