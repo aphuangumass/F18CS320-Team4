@@ -58,18 +58,6 @@ return (
               {/* </button> */}
               {/* </form> */}
             </div>
-            <button
-              style={{
-                width: "150px",
-                borderRadius: "3px",
-                letterSpacing: "1.5px",
-                marginTop: "1rem"
-              }}
-              onClick={this.onLogoutClick}
-              className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-            >
-              Logout
-            </button>
           <Table tenant={user.tenant} search={this.state.value}/>
         </div>
     );
