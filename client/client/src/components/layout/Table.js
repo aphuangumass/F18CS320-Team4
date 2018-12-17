@@ -108,6 +108,12 @@ class Table extends Component {
           return (
           <div>
           {Math.floor((1 - row.value[0] / row.value[1]) * 100)}%
+          <img src={require("./White-space.png")} class="right" 
+            style={{
+              width:'15%',
+              height: '15%'
+            }}
+        ></img>
           </div>)      
       }
         
