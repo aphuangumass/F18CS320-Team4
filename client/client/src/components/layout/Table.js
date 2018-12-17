@@ -67,27 +67,27 @@ class Table extends Component {
       Header: 'Serial Number',
       accessor: 'serial',
       width: 150,
-      resizable: false
+      // resizable: false
     }, {
       Header: 'Company Name',
       accessor: 'company',
       width: 150,
-      resizable: false
+      // resizable: false
     }, {
       Header: 'Model',
       accessor: 'fullModel',
-      resizable: false
+      // resizable: false
     }, {
       Header: 'Date',
       id: 'date',
-      resizable: false,
+      // resizable: false,
       accessor: d => new Date(d.date).toLocaleDateString('en-US', dateOptions)
     }, {
       // var per = Math.floor((1 - c.capacity[0] / c.capacity[1]) * 100,
       Header: 'Capacity used',
       accessor: 'capacity',
       width: 150,
-      resizable: false,
+      // resizable: false,
       sortMethod: (a, b) => {
         // console.log(Number(a[0]),b[1])
         return ((a[0] / a[1]) > (b[0] / b[1])) ? 1 : -1;
@@ -99,8 +99,8 @@ class Table extends Component {
           {Math.floor((1 - row.value[0] / row.value[1]) * 100)}%
           <img src={require("./900px-GHS-pictogram-exclam.png")} class="right" 
             style={{
-              width:'15%',
-              height: '15%'
+              width:'20px',
+              height: '20px'
             }}
         ></img>
         </div>)
@@ -110,8 +110,8 @@ class Table extends Component {
           {Math.floor((1 - row.value[0] / row.value[1]) * 100)}%
           <img src={require("./White-space.png")} class="right" 
             style={{
-              width:'15%',
-              height: '15%'
+              width:'20px',
+              height: '20px'
             }}
         ></img>
           </div>)      
