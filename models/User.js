@@ -19,7 +19,7 @@ const UserSchema = new Schema({
     default: Date.now
   },
   tenant: {
-    type: String,
+    type: [String],
     required: true
   }
 });
