@@ -67,24 +67,24 @@ class Table extends Component {
     dbData: []
   }
 
-  searchWithin = (str) => {
-    return this.state.dbData.filter(entry => str === '' 
-    || (entry.serial !== undefined && entry.serial.toString().toUpperCase().includes(str))
-    || (entry.company !== undefined && entry.company.toString().toUpperCase().includes(str))
-    || (entry.model !== undefined && entry.model.toString().toUpperCase().includes(str))
-    || (entry.fullModel !== undefined &&entry.fullModel.toString().toUpperCase().includes(str))
-    || (entry.osVersion !== undefined &&entry.osVersion.toString().toUpperCase().includes(str))
-    || (str.charAt(2) === '%' && Number(str.substring(0,2)) <= Math.floor((1 - entry.capacity[0]/entry.capacity[1]) * 100))
-    )
-  }
+  // searchWithin = (str) => {
+  //   return this.state.dbData.filter(entry => str === '' 
+  //   || (entry.serial !== undefined && entry.serial.toString().toUpperCase().includes(str))
+  //   || (entry.company !== undefined && entry.company.toString().toUpperCase().includes(str))
+  //   || (entry.model !== undefined && entry.model.toString().toUpperCase().includes(str))
+  //   || (entry.fullModel !== undefined &&entry.fullModel.toString().toUpperCase().includes(str))
+  //   || (entry.osVersion !== undefined &&entry.osVersion.toString().toUpperCase().includes(str))
+  //   || (str.charAt(2) === '%' && Number(str.substring(0,2)) <= Math.floor((1 - entry.capacity[0]/entry.capacity[1]) * 100))
+  //   )
+  // }
   
   render() {
     
     const tenant = this.props.tenant
-    const filter = this.props.search.toString().toUpperCase()
+    const filter = this.props.search.toString()
     // const filter = (this.props.search === '') ? '' : this.props.search.toString()
 
-    axios.get('http://localhost:5000/api/items/tenants/' + tenant.join(','))
+    axios.get('http://localhost:5000/api/items/tenants/' + tenant.join(',')+ "/search/" + filter)
     .then(res => {if(this.state.dbData !== res.data) this.setState({
       dbData: res.data
   })})
@@ -156,25 +156,10 @@ class Table extends Component {
     return (
           <div>
               <ReactTable
-                data={this.searchWithin(filter)}
+                data={this.state.dbData}
                 columns={columns}
                 defaultPageSize = {15}
-                // pivotBy ={["Company Name"]}
-                >
-                {/* {(state, makeTable, instance) => {
-    return (
-      <div>
-        <pre>
-          <code>
-            state.allVisibleColumns ==={" "}
-            {JSON.stringify(state.allVisibleColumns, null, 4)}
-          </code>
-        </pre>
-        {makeTable()}
-      </div>
-    );
-  }} */}
-              </ReactTable>
+                />
               
           </div>      
     )

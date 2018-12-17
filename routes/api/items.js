@@ -15,7 +15,15 @@ router.get('/', (req, res) => {
 // @route   GET api/data/tenants/:tenant/items/:type/:id
 // @desc    Get db entries have a "type" with an "id"
 // @access  Public
-router.get('/tenants/:c/search/:type/:id', (req, res) => {
+router.get('/tenants/:c/search', (req, res) => {
+    Item.find({"authorized.tenants" : {$in: req.params.c.split(',')}})
+        .then(item => res.set({'Content-Type': 'application/json; charset=utf-8'}).send(JSON.stringify(item, null, 4)))
+});
+
+// @route   GET api/data/tenants/:tenant/items/:type/:id
+// @desc    Get db entries have a "type" with an "id"
+// @access  Public
+router.get('/tenants/:c/searchByKey/:type/:id', (req, res) => {
     Item.find({"authorized.tenants" : {$in: req.params.c.split(',')}, [req.params.type] : req.params.id})
         .then(item => res.set({'Content-Type': 'application/json; charset=utf-8'}).send(JSON.stringify(item, null, 4)))
 });
@@ -23,8 +31,14 @@ router.get('/tenants/:c/search/:type/:id', (req, res) => {
 // @route   GET api/data/items/tenants/:c
 // @desc    Get db entries that follow at least one group of c, separated by '-'
 // @access  Public
-router.get('/tenants/:c', (req, res) => {
-    Item.find({"authorized.tenants" : {$in: req.params.c.split(',')}})
+router.get('/tenants/:c/search/:str', (req, res) => {
+    Item.find({"authorized.tenants" : {$in: req.params.c.split(',')}, $or: [ 
+        ({ $where: RegExp(req.params.str) + ".test(this.serial)" }),
+        {company: RegExp(req.params.str, 'i')},
+        {model: RegExp(req.params.str, 'i')},
+        {fullModel: RegExp(req.params.str, 'i')},
+        {osVersion: RegExp(req.params.str, 'i')},
+    ]})
         .then(item => res.set({'Content-Type': 'application/json; charset=utf-8'}).send(JSON.stringify(item, null, 4)))
 });
 
