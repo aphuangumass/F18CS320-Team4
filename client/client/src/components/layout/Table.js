@@ -28,12 +28,17 @@ class Table extends Component {
   state ={
     dbData: [],
     treeJSON: {},
+    showTree: false,
     filteredData: []
   }
   handleViewClick (e, row) {
     var json = row.row._original.content;
     this.setState ({treeJSON: json});
     console.log(this.state.treeJSON);
+    this.setState ({showTree: true});
+  }
+  onHideTree () {
+    this.setState ({showTree: false});
   }
 
   searchWithin = (str) => {
@@ -53,8 +58,9 @@ class Table extends Component {
     const filter = this.props.search.toString().toUpperCase()
     // const filter = (this.props.search === '') ? '' : this.props.search.toString()
 
+    // DELETED "tenants/' + tenant.join(',')" FROM BELOW. ADD TO .../items/
     axios.get('http://localhost:5000/api/items/tenants/' + tenant.join(','))
-    .then(res => {if(this.state.dbData !== res.data) this.setState({
+    .then(res => this.setState({
       dbData: res.data
     //   .filter(x => filter === ""
     //     || x.serial === filter
@@ -63,8 +69,8 @@ class Table extends Component {
     //     || x.fullModel === filter
     //     || x.osVersion === filter
     //     || (filter.charAt(2) === '%' && Number(filter.substring(0,2)) <= Math.floor((1 - x.capacity[0]/x.capacity[1]) * 100))
-    // )
-  })})
+    //
+    }))
 
     // console.log(filter)
 
@@ -138,14 +144,16 @@ class Table extends Component {
       )
     }]
 
-
     return (  
       <Container>
         <Row>
-          <Col style={treeWrapper}>
-            <h5>File TreeView</h5>
-            <ReactJson src={this.state.treeJSON} collapsed={true} enableClipboard={false}/>
-          </Col>
+          { !this.state.showTree ? null: 
+            <Col>
+              <h5>File TreeView</h5>
+              <button onClick={() => this.onHideTree()}>Hide</button>
+              <ReactJson src={this.state.treeJSON} collapsed={true} enableClipboard={false}/>
+            </Col>  
+          } 
           <Col>
             <ReactTable
               data={this.searchWithin(filter)}
@@ -155,15 +163,8 @@ class Table extends Component {
           </Col>
         </Row>
       </Container>
+      
     )
   }
-}
-const treeWrapper = {
-  borderStyle: 'solid',
-  borderColor: 'black',
-  backgroundColor: '#D3D3D3',
-  margin: "25px",
-  borderWidth: '3px',
-  borderRadius: '30px'
 }
 export default Table;
