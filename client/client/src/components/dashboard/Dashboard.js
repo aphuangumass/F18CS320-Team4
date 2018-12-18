@@ -38,8 +38,8 @@ render() {
     console.log(user);
 return (
         <Container>
-          <Row>
-            <Col md={4}>
+          
+            <Col>
               <h4>
                 <b>Hey there,</b> {user.name.split(" ")[0]}
                 {/* THROWS TYPE ERROR.V */}
@@ -47,11 +47,10 @@ return (
                 <p className="flow-text grey-text text-darken-1"></p>
               </h4>
             </Col>
-            <Col md={4}></Col>
-            <Col md={4}>
+            <Col >
               <div class="input-field inline">
                 {/* <form onSubmit={this.handleSubmit}> */}
-                  <label for="search_bar">Search Files...</label>
+                  <label htmlFor="search_bar">Search Files...</label>
                   <input value={this.state.value} onChange={this.handleChange}
                     id="search_bar" type="text"/>
                   {/* <button class="waves-effect waves-light btn-small" type="submit" name="action">Submit */}
@@ -59,8 +58,8 @@ return (
                   {/* </form> */}
               </div>
             </Col>
-           </Row>
-          <Table tenant={user.tenant} search={this.state.value}/>
+          
+          <Table tenant={user.tenant} name={user.name} search={this.state.value}/>
         </Container>
     );
   }

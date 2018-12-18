@@ -5,6 +5,7 @@ import axios from 'axios';
 import "react-table/react-table.css";
 import ReactJson from 'react-json-view'
 import { Container, Row, Col } from 'react-grid-system';
+import TableReadMe from '../layout/TableReadMe'
 
 
 
@@ -56,6 +57,7 @@ class Table extends Component {
     
     const tenant = this.props.tenant
     const filter = this.props.search.toString().toUpperCase()
+    const name = this.props.name
     // const filter = (this.props.search === '') ? '' : this.props.search.toString()
 
     // DELETED "tenants/' + tenant.join(',')" FROM BELOW. ADD TO .../items/
@@ -97,7 +99,7 @@ class Table extends Component {
       //creates a new component inside of this column in the table
       Cell : row => (
         //button calls its clicky function when clicked
-        <button onClick={(e) => this.handleViewClick(e, row)} >View</button>
+        <button style={tableButtonWrapper} className="btn btn-small waves-effect #006064 hoverable white-text" onClick={(e) => this.handleViewClick(e, row)} >View</button>
       )
     }, {
       // var per = Math.floor((1 - c.capacity[0] / c.capacity[1]) * 100,
@@ -140,31 +142,39 @@ class Table extends Component {
       //creates a new component inside of this column in the table
       Cell : row => (
         //button calls its clicky function when clicked
-        <button onClick={(e) => handleDownloadClick(e, row)}>Download</button>
+        <button  style={tableButtonWrapper} className="btn btn-small waves-effect #006064 hoverable white-text" onClick={(e) => handleDownloadClick(e, row)}>Download</button>
       )
     }]
 
     return (  
       <Container>
         <Row>
-          { !this.state.showTree ? null: 
-            <Col>
-              <h5>File TreeView</h5>
-              <button onClick={() => this.onHideTree()}>Hide</button>
-              <ReactJson src={this.state.treeJSON} collapsed={true} enableClipboard={false}/>
-            </Col>  
-          } 
-          <Col>
+          <Col md={9}>
             <ReactTable
               data={this.searchWithin(filter)}
               columns={columns}
               defaultPageSize = {10}
             />
           </Col>
+          { !this.state.showTree ? <TableReadMe name={name}/>: 
+            <Col>
+              <h5>File TreeView</h5>
+              <button style={treeHideButtonWrapper} onClick={() => this.onHideTree()}>Hide</button>
+              <ReactJson src={this.state.treeJSON} collapsed={true} enableClipboard={false} style={{fontSize:"small"}}/>
+            </Col>  
+          } 
         </Row>
       </Container>
       
     )
   }
+}
+const tableButtonWrapper = {
+  display: 'block',
+  margin: 'auto'
+}
+const treeHideButtonWrapper = {
+  display: 'block',
+  marginLeft: '15px'
 }
 export default Table;
