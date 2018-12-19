@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
 import { Container, Row, Col } from 'react-grid-system';
 import Table from "../layout/Table";
+import './Dashboard.css';
 
 
 class Dashboard extends Component {

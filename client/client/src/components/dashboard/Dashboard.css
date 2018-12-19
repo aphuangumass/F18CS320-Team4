@@ -1,0 +1,6 @@
+.input-field label {
+    color: gray;
+}
+input, select, textarea{
+    color: black; 
+}
