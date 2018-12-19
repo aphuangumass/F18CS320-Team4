@@ -110,27 +110,58 @@ class Table extends Component {
         // console.log(Number(a[0]),b[1])
         return ((a[0] / a[1]) > (b[0] / b[1])) ? 1 : -1;
       },
-      Cell: row => (
+      Cell: row => {
+        if(Math.floor((1 - row.value[0] / row.value[1]) * 100) > 70)
+        return(
         <div
           style={{
             width: '100%',
             height: '50%'
           }}
           >
+         <text
+          style={{
+            paddingRight: '3px'
+          }}
+         >
          {Math.floor((1 - row.value[0] / row.value[1]) * 100)}%
+         </text>
+         <img src={require("./900px-GHS-pictogram-exclam.png")} class="center" 
+            style={{
+              width:'15px',
+              height: '15px'
+            }}
+        ></img>
           <div
             style={{
               width: `${Math.floor((1 - row.value[0] / row.value[1]) * 100)}%`,
               height: '50%',
-              backgroundColor: Math.floor((1 - row.value[0] / row.value[1]) * 100) < 70 ? '#85cc00'
-                // : Math.floor((1 - row.value[0] / row.value[1]) * 100) > 33 ? '#ffbf00'
-                : '#ff2e00',
+              backgroundColor: '#ff2e00',
               borderRadius: '2px',
               transition: 'all .2s ease-out'
             }}
           />
-        </div>
-      )
+        </div>)
+        else
+        return(
+          <div
+            style={{
+              width: '100%',
+              height: '50%'
+            }}
+            >
+           {Math.floor((1 - row.value[0] / row.value[1]) * 100)}%
+            <div
+              style={{
+                width: `${Math.floor((1 - row.value[0] / row.value[1]) * 100)}%`,
+                height: '50%',
+                backgroundColor: '#85cc00',
+                borderRadius: '2px',
+                transition: 'all .2s ease-out'
+              }}
+            />
+          </div>)
+      }
       // accessor: c => {
       //   var per = Math.floor((1 - c.capacity[0] / c.capacity[1]) * 100)
       //   return ((per >= 70) ? 
