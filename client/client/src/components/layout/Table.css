@@ -1,0 +1,9 @@
+.-pagination {
+    height:60px;
+   }
+   .ReactTable .-pagination .-pageJump input{
+       height:30px;
+   }
+   .ReactTable{
+       margin-bottom:50px;
+   }
