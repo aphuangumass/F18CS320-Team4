@@ -3,10 +3,11 @@ import ReactTable from "react-table";
 //import ReactJson from 'react-json-view';
 import axios from 'axios';
 import "react-table/react-table.css";
-import ReactJson from 'react-json-view'
+import ReactJson from 'react-json-view';
 import { Container, Row, Col } from 'react-grid-system';
-import TableReadMe from '../layout/TableReadMe'
-import ReactTooltip from 'react-tooltip'
+import TableReadMe from '../layout/TableReadMe';
+import ReactTooltip from 'react-tooltip';
+import "./Table.css";
 
 
 
@@ -155,6 +156,7 @@ class Table extends Component {
               data={this.searchWithin(filter)}
               columns={columns}
               defaultPageSize = {10}
+              
             />
           </Col>
           { !this.state.showTree ? <TableReadMe name={name}/>: 
@@ -185,4 +187,5 @@ const treeHideButtonWrapper = {
   padding: '0 0.5rem',
   marginBottom: '5px'
 }
+
 export default Table;
