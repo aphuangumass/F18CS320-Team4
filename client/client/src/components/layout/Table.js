@@ -7,7 +7,7 @@ import ReactJson from 'react-json-view'
 import { Container, Row, Col } from 'react-grid-system';
 import TableReadMe from '../layout/TableReadMe'
 import ReactTooltip from 'react-tooltip'
-
+import './Table.css'
 
 
 //handles button click

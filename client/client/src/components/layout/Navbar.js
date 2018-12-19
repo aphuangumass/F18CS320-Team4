@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getCurrentUser } from "../../actions/authActions";
 import { logoutUser } from "../../actions/authActions";
+import './Navbar.css';
 
 class Navbar extends Component {
   constructor(props){
@@ -54,12 +55,12 @@ class Navbar extends Component {
         <nav className="z-depth-0">
           <div className="nav-wrapper blue-grey darken-4">
           <Link to="/">
-            <img src={require("./hpelogo2_resize.png")} alt="logo" class ="left" hspace="180" vspace="10"></img>
+            <img src={require("./hpelogo2_resize.png")} alt="logo" class ="left" hspace="100" vspace="10"></img>
           </Link>
 
           <ul id="nav-mobile" class="right hide-on-med-and-down">
-             <li>  <Greeting user= {user} isLoggedIn={isAuthenticated} /></li>
-             <li> {button } </li>
+             <li className="greeterino">  <Greeting user= {user} isLoggedIn={isAuthenticated} /></li>
+             <li className="logouterino"> {button } </li>
           </ul>
           </div>
         </nav>
@@ -78,7 +79,7 @@ function Greeting(props) {
 
 function UserGreeting(props) {
   return  <ul id="nav-mobile" class="right hide-on-med-and-down">
-              <li> Hello, </li>
+              <li> Hello,&nbsp;</li>
               <li> {props.name} </li>
           </ul>;
 }
