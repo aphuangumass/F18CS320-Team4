@@ -20,9 +20,9 @@ module.exports = function validateRegisterInput(data) {
   if (!Validator.isEmail(data.email)) {
     errors.email = "Email is invalid";
   }
-  // tenant id 
+  // tenant id  -- updated
   if (Validator.isEmpty(data.tenant)) {
-    errors.password = "tenant field is required";
+    errors.tenant = "tenant field is required";
   }
 // Password checks
   if (Validator.isEmpty(data.password)) {
