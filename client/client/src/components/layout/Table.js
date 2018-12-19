@@ -27,6 +27,7 @@ function handleDownloadClick (e, row) {
 }
 
 class Table extends Component {
+  
   state ={
     dbData: [],
     treeJSON: {},
@@ -154,6 +155,8 @@ class Table extends Component {
         <Row>
           <Col md={9.5}>
             <ReactTable
+              getTheadThProps={() => { return { style: { outline: 0, } }; }}
+              onSortedChange={(c, s) => { document.activeElement.blur() }}
               data={this.searchWithin(filter)}
               columns={columns}
               defaultPageSize = {10}
@@ -173,6 +176,9 @@ class Table extends Component {
     )
   }
 }
+
+
+
 const cellHeaderWrapper = {
   marginTop: '0',
   marginBottom: '0',
