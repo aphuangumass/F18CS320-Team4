@@ -96,6 +96,7 @@ class Table extends Component {
       accessor: d => new Date(d.date).toLocaleDateString('en-US', dateOptions)
     },{
       Header: <p data-tip="View JSON Tree next to the table." style={cellHeaderWrapper}>View</p>,
+      sortable:false,
       accessor: 'view-content',
       //creates a new component inside of this column in the table
       Cell : row => (
@@ -139,6 +140,7 @@ class Table extends Component {
       //   )}
     }, {
       Header: <p data-tip="Download JSON File to local machine." style={cellHeaderWrapper}>Download</p>,
+      sortable:false,
       accessor: 'content',
       //creates a new component inside of this column in the table
       Cell : row => (
