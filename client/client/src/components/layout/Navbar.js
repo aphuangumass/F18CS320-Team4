@@ -92,7 +92,7 @@ function GuestGreeting(props) {
 
 function LogoutButton(props) {
   return (
-    <button onClick={props.onClick}>
+    <button className="btn btn-small waves-effect #006064 hoverable white-text" onClick={props.onClick}>
       Logout
     </button>
   );
