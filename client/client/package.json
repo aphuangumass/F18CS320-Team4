@@ -17,6 +17,7 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.1",
     "react-table": "^6.8.6",
+    "react-tooltip": "^3.9.0",
     "react-treeview": "^0.4.7",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.7",
