@@ -6,3 +6,5 @@ client/client/node_modules
 # also not everyone uses mac so don't commit .DS_Store
 client/.DS_Store
 .DS_Store
+client/client/package-lock.json
+package-lock.json
