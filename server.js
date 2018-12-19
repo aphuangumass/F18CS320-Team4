@@ -7,7 +7,6 @@ const item = require('./routes/api/items');
 const cors = require('cors');
 
 const app = express();
-app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }) );
 app.use(bodyParser.json());
 app.use(express.json());
@@ -29,7 +28,7 @@ mongoose.connect(Itemsdb, {useNewUrlParser: true})
 // Passport middleware
 app.use(passport.initialize());
 // Passport config
-const pass =require("./config/passport");
+const pass = require("./config/passport");
 pass.myfunc();
 
     
@@ -40,3 +39,5 @@ app.use("/api/users", users);
 const port = process.env.PORT || 5000
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
+
+mongoose.connection.close()
