@@ -3,6 +3,12 @@ import ReactTable from "react-table";
 //import ReactJson from 'react-json-view';
 import axios from 'axios';
 import "react-table/react-table.css";
+import ReactJson from 'react-json-view'
+import { Container, Row, Col } from 'react-grid-system';
+import TableReadMe from '../layout/TableReadMe'
+import ReactTooltip from 'react-tooltip'
+
+
 
 //handles button click
 //grabs correct json from row and converts it to a string
@@ -10,20 +16,31 @@ import "react-table/react-table.css";
 //gives blob url
 //makes a tempLink object so file can be given name/fileExtension
 //clicks tempLink to download file
-function handleButtonClick (e, row) {
+function handleDownloadClick (e, row) {
   var json = JSON.stringify(row.row._original.content, null, ' ');
   var blob = new Blob([json], {type: "octet/stream"});
   var url  = window.URL.createObjectURL(blob);
   var tempLink = document.createElement('a');
   tempLink.href = url;
-  tempLink.setAttribute('download', row.row._original.name);
+  tempLink.setAttribute('download', 'filename.json');
   tempLink.click();
 }
 
 class Table extends Component {
   state ={
     dbData: [],
+    treeJSON: {},
+    showTree: false,
     filteredData: []
+  }
+  handleViewClick (e, row) {
+    var json = row.row._original.content;
+    this.setState ({treeJSON: json});
+    console.log(this.state.treeJSON);
+    this.setState ({showTree: true});
+  }
+  onHideTree () {
+    this.setState ({showTree: false});
   }
 
   searchWithin = (str) => {
@@ -41,10 +58,12 @@ class Table extends Component {
     
     const tenant = this.props.tenant
     const filter = this.props.search.toString().toUpperCase()
+    const name = this.props.name
     // const filter = (this.props.search === '') ? '' : this.props.search.toString()
 
+    // DELETED "tenants/' + tenant.join(',')" FROM BELOW. ADD TO .../items/
     axios.get('http://localhost:5000/api/items/tenants/' + tenant.join(','))
-    .then(res => {if(this.state.dbData !== res.data) this.setState({
+    .then(res => this.setState({
       dbData: res.data
     //   .filter(x => filter === ""
     //     || x.serial === filter
@@ -53,8 +72,8 @@ class Table extends Component {
     //     || x.fullModel === filter
     //     || x.osVersion === filter
     //     || (filter.charAt(2) === '%' && Number(filter.substring(0,2)) <= Math.floor((1 - x.capacity[0]/x.capacity[1]) * 100))
-    // )
-  })})
+    //
+    }))
 
     // console.log(filter)
 
@@ -63,21 +82,29 @@ class Table extends Component {
     const dateOptions = {year: "numeric", month: "short", day: "numeric"};
 
     const columns = [{
-      Header: 'Serial Number',
+      Header: <p data-tip="Serial number of this machine." style={cellHeaderWrapper}>Serial Number</p>,
       accessor: 'serial'
     }, {
-      Header: 'Company Name',
+      Header: <p data-tip="The company that is using the system." style={cellHeaderWrapper}>Company</p>,
       accessor: 'company'
     }, {
-      Header: 'Model',
+      Header: <p data-tip="Model of the system." style={cellHeaderWrapper}>Model</p>,
       accessor: 'fullModel'
     }, {
-      Header: 'Date',
+      Header: <p data-tip="The date in which each file was created." style={cellHeaderWrapper}>Date</p>,
       id: 'date',
       accessor: d => new Date(d.date).toLocaleDateString('en-US', dateOptions)
+    },{
+      Header: <p data-tip="View JSON Tree next to the table." style={cellHeaderWrapper}>View</p>,
+      accessor: 'view-content',
+      //creates a new component inside of this column in the table
+      Cell : row => (
+        //button calls its clicky function when clicked
+        <button style={tableButtonWrapper} className="btn btn-small waves-effect #006064 hoverable white-text" onClick={(e) => this.handleViewClick(e, row)} >View</button>
+      )
     }, {
       // var per = Math.floor((1 - c.capacity[0] / c.capacity[1]) * 100,
-      Header: 'Capacity used',
+      Header: <p data-tip="Used capacity, red indicates that over 70% is used." style={cellHeaderWrapper}>Capacity Used</p>,
       accessor: 'capacity',
       sortMethod: (a, b) => {
         // console.log(Number(a[0]),b[1])
@@ -111,41 +138,51 @@ class Table extends Component {
       //     (<div>{per}%</div>)
       //   )}
     }, {
-      Header: 'Download',
+      Header: <p data-tip="Download JSON File to local machine." style={cellHeaderWrapper}>Download</p>,
       accessor: 'content',
       //creates a new component inside of this column in the table
       Cell : row => (
         //button calls its clicky function when clicked
-        <button onClick={(e) => handleButtonClick(e, row)}>Download</button>
+        <button style={tableButtonWrapper} className="btn btn-small waves-effect #006064 hoverable white-text" onClick={(e) => handleDownloadClick(e, row)}>Download</button>
       )
     }]
 
-    return (
-          <div>
-              <ReactTable
-                data={this.searchWithin(filter)}
-                columns={columns}
-                defaultPageSize = {15}
-                // pivotBy ={["Company Name"]}
-                >
-                {/* {(state, makeTable, instance) => {
-    return (
-      <div>
-        <pre>
-          <code>
-            state.allVisibleColumns ==={" "}
-            {JSON.stringify(state.allVisibleColumns, null, 4)}
-          </code>
-        </pre>
-        {makeTable()}
-      </div>
-    );
-  }} */}
-              </ReactTable>
-              
-          </div>      
+    return (  
+      <Container>
+        <Row>
+          <Col md={9.5}>
+            <ReactTable
+              data={this.searchWithin(filter)}
+              columns={columns}
+              defaultPageSize = {10}
+            />
+          </Col>
+          { !this.state.showTree ? <TableReadMe name={name}/>: 
+            <Col>
+              <h6><b>JSON TreeView</b></h6>
+              <button className="btn btn-nano waves-effect #006064 hoverable white-text" style={treeHideButtonWrapper} onClick={() => this.onHideTree()}>Hide</button>
+              <ReactJson src={this.state.treeJSON} collapsed={true} enableClipboard={false} style={{fontSize:"small"}}/>
+            </Col>  
+          } 
+        </Row>
+        <ReactTooltip />
+      </Container>
+      
     )
   }
 }
-
+const cellHeaderWrapper = {
+  marginTop: '0',
+  marginBottom: '0',
+}
+const tableButtonWrapper = {
+  display: 'block',
+  margin: 'auto'
+}
+const treeHideButtonWrapper = {
+  height: '18px',
+  lineHeight: '15px',
+  padding: '0 0.5rem',
+  marginBottom: '5px'
+}
 export default Table;
