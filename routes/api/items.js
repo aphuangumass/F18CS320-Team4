@@ -12,20 +12,49 @@ router.get('/', (req, res) => {
         .then(item => res.set({'Content-Type': 'application/json; charset=utf-8'}).send(JSON.stringify(item, null, 4)))
 });
 
-// @route   GET api/data/items/:type/:c
+// @route   GET api/data/tenants/:tenant/items/:type/:id
 // @desc    Get db entries have a "type" with an "id"
 // @access  Public
-router.get('/search/:type/:c', (req, res) => {
-    Item.find({[req.params.type] : req.params.c})
+router.get('/tenants/:c/searchByKey/:type/:id', (req, res) => {
+    Item.find({"authorized.tenants" : {$in: req.params.c.split(',')}, [req.params.type] : req.params.id})
+        .then(item => res.set({'Content-Type': 'application/json; charset=utf-8'}).send(JSON.stringify(item, null, 4)))
+});
+
+// @route   GET api/data/tenants/:tenant/items/:type/:id
+// @desc    Get db entries have a "type" with an "id"
+// @access  Public
+router.get('/tenants/:c/search', (req, res) => {
+    Item.find({"authorized.tenants" : {$in: req.params.c.split(',')}})
+        .then(item => res.set({'Content-Type': 'application/json; charset=utf-8'}).send(JSON.stringify(item, null, 4)))
+});
+
+
+// @route   GET api/data/tenants/:tenant/items/:type/:id/:page/:pageSize
+// @desc    Get db entries have a "type" with an "id" from a page of "page"
+// @access  Public
+router.get('/tenants/:c/search/:str', (req, res) => {
+    Item.find({"authorized.tenants" : {$in: req.params.c.split(',')}, $or: [ 
+        ({ $where: RegExp(req.params.str) + ".test(this.serial)" }),
+        {company: RegExp(req.params.str, 'i')},
+        {model: RegExp(req.params.str, 'i')},
+        {fullModel: RegExp(req.params.str, 'i')},
+        {osVersion: RegExp(req.params.str, 'i')},
+    ]})
         .then(item => res.set({'Content-Type': 'application/json; charset=utf-8'}).send(JSON.stringify(item, null, 4)))
 });
 
 // @route   GET api/data/items/tenants/:c
 // @desc    Get db entries that follow at least one group of c, separated by '-'
 // @access  Public
-router.get('/tenants/:c', (req, res) => {
-    Item.find({"authorized.tenants" : {$in: req.params.c.split(',')}})
-        .then(item => res.set({'Content-Type': 'application/json; charset=utf-8'}).send(JSON.stringify(item, null, 4)))
+router.get('/tenants/:c/count/:str', (req, res) => {
+    Item.count({"authorized.tenants" : {$in: req.params.c.split(',')}, $or: [ 
+        ({ $where: RegExp(req.params.str) + ".test(this.serial)" }),
+        {company: RegExp(req.params.str, 'i')},
+        {model: RegExp(req.params.str, 'i')},
+        {fullModel: RegExp(req.params.str, 'i')},
+        {osVersion: RegExp(req.params.str, 'i')},
+    ]})
+        .then(item => res.send(item))
 });
 
 // @route   GET api/data/items/list/:c
@@ -48,8 +77,8 @@ router.post('/', (req, res) => {
         model: req.body.system.model,
         fullModel: req.body.system.fullModel,
         osVersion: req.body.system.osVersion,
-        totalCapacity: req.body.capacity.total.sizeTiB,
-        freeCapacity: req.body.capacity.total.freeTiB,
+        capacity: [req.body.capacity.total.freeTiB, req.body.capacity.total.sizeTiB],
+        capacityLeft: Math.floor((1 - req.body.capacity.total.freeTiB / req.body.capacity.total.sizeTiB) * 100),
         updated: req.body.updated,
         authorized: req.body.authorized,
         date: req.body.date,
@@ -71,14 +100,13 @@ router.post('/', (req, res) => {
         //console.log(item)
         if (item.length != 0) {
             
-            
             if(item[0].prev != null)
                 {
                     newItem.prev = item[0].prev     
                 }
             newItem.prev.push(item[0].content)  
-            console.log("------------------------")   
-            console.log(newItem)
+            // console.log("------------------------")   
+            // console.log(newItem)
             Item.deleteOne({'serial': req.body.serialNumberInserv})
 
             // push prev to prev 
@@ -86,9 +114,6 @@ router.post('/', (req, res) => {
             // save new item
             //item.udpate({ } )
         }
-        console.log("Should have newly updated entry here")
-        
-                
     }) 
         
     newItem.save().then(item => res.json(item));

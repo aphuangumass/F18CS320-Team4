@@ -27,58 +27,49 @@ function handleDownloadClick (e, row) {
 }
 
 class Table extends Component {
-  
-  state ={
-    dbData: [],
-    treeJSON: {},
-    showTree: false,
-    filteredData: []
+  constructor() {
+    super()
+    this.state ={
+      dbData: [],
+
+      treeJSON: {},
+      showTree: false
+    };
+    // this.fetchData = this.fetchData.bind(this);
   }
+
+  // fetchData(state, instance) {
+  //   // Whenever the table model changes, or the user sorts or changes pages, this method gets called and passed the current table model.
+  //   // You can set the `loading` prop of the table to true to use the built-in one or show you're own loading bar if you want.
+  //   this.setState({ loading: true });
+
+  //   axios.get('http://localhost:5000/api/items/tenants/' + this.props.tenant.join(',') + '/search/' + this.props.search)
+  //   .then(res => this.setState({
+  //     dbData: res.data,
+  //     loading: false
+  //   }))
+  // }
+
   handleViewClick (e, row) {
     var json = row.row._original.content;
     this.setState ({treeJSON: json});
     console.log(this.state.treeJSON);
     this.setState ({showTree: true});
   }
+
   onHideTree () {
     this.setState ({showTree: false});
   }
 
-  searchWithin = (str) => {
-    return this.state.dbData.filter(entry => str === '' 
-    || (entry.serial !== null && entry.serial.toString().toUpperCase().includes(str))
-    || (entry.company !== '' && entry.company.toString().toUpperCase().includes(str))
-    || (entry.model !== null && entry.model.toString().toUpperCase().includes(str))
-    || (entry.fullModel !== null &&entry.fullModel.toString().toUpperCase().includes(str))
-    || (entry.osVersion !== null &&entry.osVersion.toString().toUpperCase().includes(str))
-    || (str.charAt(2) === '%' && Number(str.substring(0,2)) <= Math.floor((1 - entry.capacity[0]/entry.capacity[1]) * 100))
-    )
-  }
-  
   render() {
-    
-    const tenant = this.props.tenant
-    const filter = this.props.search.toString().toUpperCase()
-    const name = this.props.name
     // const filter = (this.props.search === '') ? '' : this.props.search.toString()
 
     // DELETED "tenants/' + tenant.join(',')" FROM BELOW. ADD TO .../items/
-    axios.get('http://localhost:5000/api/items/tenants/' + tenant.join(','))
-    .then(res => this.setState({
-      dbData: res.data
-    //   .filter(x => filter === ""
-    //     || x.serial === filter
-    //     || x.company === filter
-    //     || x.model === filter
-    //     || x.fullModel === filter
-    //     || x.osVersion === filter
-    //     || (filter.charAt(2) === '%' && Number(filter.substring(0,2)) <= Math.floor((1 - x.capacity[0]/x.capacity[1]) * 100))
-    //
-    }))
+    axios.get('http://localhost:5000/api/items/tenants/' + this.props.tenant.join(',') + '/search/' + this.props.search)
+    .then(res => {if (this.state.dbData !== res.data) this.setState({dbData: res.data})})
 
-    // console.log(filter)
-
-    // console.log(this.state.dbData[0])
+    const name = this.props.name
+    // const filter = (this.props.search === '') ? '' : this.props.search.toString()
 
     const dateOptions = {year: "numeric", month: "short", day: "numeric"};
 
@@ -115,16 +106,15 @@ class Table extends Component {
         <button style={tableButtonWrapper} className="btn btn-small waves-effect #006064 hoverable white-text" onClick={(e) => this.handleViewClick(e, row)} >View</button>
       )
     }, {
-      // var per = Math.floor((1 - c.capacity[0] / c.capacity[1]) * 100,
       Header: <p data-tip="Used capacity, red indicates that over 70% is used." style={cellHeaderWrapper}>Capacity Used</p>,
-      accessor: 'capacity',
+      accessor: 'capacityLeft',
       resizable: false,
       sortMethod: (a, b) => {
         // console.log(Number(a[0]),b[1])
-        return ((a[0] / a[1]) > (b[0] / b[1])) ? 1 : -1;
+        return (a > b) ? 1 : -1;
       },
       Cell: row => {
-        if(Math.floor((1 - row.value[0] / row.value[1]) * 100) > 70)
+        if(row.value > 70)
         return(
         <div
           style={{
@@ -137,7 +127,7 @@ class Table extends Component {
             paddingRight: '5px'
           }}
          >
-         {Math.floor((1 - row.value[0] / row.value[1]) * 100)}%
+         {row.value}%
          </text>
          <img src={require("./900px-GHS-pictogram-exclam.png")} class="center" 
             style={{
@@ -147,7 +137,7 @@ class Table extends Component {
         ></img>
           <div
             style={{
-              width: `${Math.floor((1 - row.value[0] / row.value[1]) * 100)}%`,
+              width: `${row.value}%`,
               height: '50%',
               backgroundColor: '#ff2e00',
               borderRadius: '2px',
@@ -163,10 +153,10 @@ class Table extends Component {
               height: '50%'
             }}
             >
-           {Math.floor((1 - row.value[0] / row.value[1]) * 100)}%
+           {row.value}%
             <div
               style={{
-                width: `${Math.floor((1 - row.value[0] / row.value[1]) * 100)}%`,
+                width: `${row.value}%`,
                 height: '50%',
                 backgroundColor: '#85cc00',
                 borderRadius: '2px',
@@ -200,7 +190,9 @@ class Table extends Component {
             <ReactTable
               getTheadThProps={() => { return { style: { outline: 0, } }; }}
               onSortedChange={(c, s) => { document.activeElement.blur() }}
-              data={this.searchWithin(filter)}
+
+              data={this.state.dbData}
+
               columns={columns}
               defaultPageSize = {10}
             />
@@ -219,8 +211,6 @@ class Table extends Component {
     )
   }
 }
-
-
 
 const cellHeaderWrapper = {
   marginTop: '0',
