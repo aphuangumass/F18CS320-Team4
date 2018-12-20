@@ -22,7 +22,7 @@ function handleDownloadClick (e, row) {
   var url  = window.URL.createObjectURL(blob);
   var tempLink = document.createElement('a');
   tempLink.href = url;
-  tempLink.setAttribute('download', 'filename.json');
+  tempLink.setAttribute('download', row.row._original.name);
   tempLink.click();
 }
 
@@ -43,17 +43,6 @@ class Table extends Component {
   onHideTree () {
     this.setState ({showTree: false});
   }
-
-  searchWithin = (str) => {
-    return this.state.dbData.filter(entry => str === '' 
-    || (entry.serial !== null && entry.serial.toString().toUpperCase().includes(str))
-    || (entry.company !== '' && entry.company.toString().toUpperCase().includes(str))
-    || (entry.model !== null && entry.model.toString().toUpperCase().includes(str))
-    || (entry.fullModel !== null &&entry.fullModel.toString().toUpperCase().includes(str))
-    || (entry.osVersion !== null &&entry.osVersion.toString().toUpperCase().includes(str))
-    || (str.charAt(2) === '%' && Number(str.substring(0,2)) <= Math.floor((1 - entry.capacity[0]/entry.capacity[1]) * 100))
-    )
-  }
   
   render() {
     
@@ -66,19 +55,7 @@ class Table extends Component {
     axios.get('http://localhost:5000/api/items/tenants/' + tenant.join(','))
     .then(res => this.setState({
       dbData: res.data
-    //   .filter(x => filter === ""
-    //     || x.serial === filter
-    //     || x.company === filter
-    //     || x.model === filter
-    //     || x.fullModel === filter
-    //     || x.osVersion === filter
-    //     || (filter.charAt(2) === '%' && Number(filter.substring(0,2)) <= Math.floor((1 - x.capacity[0]/x.capacity[1]) * 100))
-    //
     }))
-
-    // console.log(filter)
-
-    // console.log(this.state.dbData[0])
 
     const dateOptions = {year: "numeric", month: "short", day: "numeric"};
 
@@ -157,7 +134,7 @@ class Table extends Component {
             <ReactTable
               getTheadThProps={() => { return { style: { outline: 0, } }; }}
               onSortedChange={(c, s) => { document.activeElement.blur() }}
-              data={this.searchWithin(filter)}
+              data={this.state.dbData}
               columns={columns}
               defaultPageSize = {10}
             />
