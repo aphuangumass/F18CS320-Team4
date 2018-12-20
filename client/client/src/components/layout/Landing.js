@@ -6,7 +6,7 @@ class Landing extends Component {
     return (
       <div style={{ height: "75vh" }} className="container valign-wrapper">
         <div className="row">
-        <img src={require("./logo_resize.png")} alt="logo" class ="brand-logo center" hspace="180" vspace="2"></img>
+        <img src={require("./logo_resize.png")} alt="logo" class ="brand-logo center" hspace="45%" vspace="2"></img>
           <div className="col s12 center-align">
             <h3>
               <p className="white-text">
