@@ -84,20 +84,30 @@ class Table extends Component {
 
     const columns = [{
       Header: <p data-tip="Serial number of this machine." style={cellHeaderWrapper}>Serial Number</p>,
-      accessor: 'serial'
+      accessor: 'serial',
+      className: 'center',
+      resizable: false
     }, {
       Header: <p data-tip="The company that is using the system." style={cellHeaderWrapper}>Company</p>,
-      accessor: 'company'
+      accessor: 'company',
+      width: 140,
+      // className: 'center',
+      resizable: false
+
     }, {
       Header: <p data-tip="Model of the system." style={cellHeaderWrapper}>Model</p>,
-      accessor: 'fullModel'
+      accessor: 'fullModel',
+      width: 130,
+      resizable: false
     }, {
       Header: <p data-tip="The date in which each file was created." style={cellHeaderWrapper}>Date</p>,
       id: 'date',
+      resizable: false,
       accessor: d => new Date(d.date).toLocaleDateString('en-US', dateOptions)
     },{
       Header: <p data-tip="View JSON Tree next to the table." style={cellHeaderWrapper}>View</p>,
-      sortable:false,
+      sortable: false,
+      resizable: false,
       accessor: 'view-content',
       //creates a new component inside of this column in the table
       Cell : row => (
@@ -108,6 +118,7 @@ class Table extends Component {
       // var per = Math.floor((1 - c.capacity[0] / c.capacity[1]) * 100,
       Header: <p data-tip="Used capacity, red indicates that over 70% is used." style={cellHeaderWrapper}>Capacity Used</p>,
       accessor: 'capacity',
+      resizable: false,
       sortMethod: (a, b) => {
         // console.log(Number(a[0]),b[1])
         return ((a[0] / a[1]) > (b[0] / b[1])) ? 1 : -1;
@@ -123,7 +134,7 @@ class Table extends Component {
           >
          <text
           style={{
-            paddingRight: '3px'
+            paddingRight: '5px'
           }}
          >
          {Math.floor((1 - row.value[0] / row.value[1]) * 100)}%
@@ -173,6 +184,7 @@ class Table extends Component {
     }, {
       Header: <p data-tip="Download JSON File to local machine." style={cellHeaderWrapper}>Download</p>,
       sortable:false,
+      resizable: false,
       accessor: 'content',
       //creates a new component inside of this column in the table
       Cell : row => (
