@@ -19,7 +19,8 @@ const ItemSchema = new Schema({
     authorized: JSON,
     date: Date,
     content: JSON,
-    capacity: [Number]
+    capacity: [Number],
+    prev: [JSON]
 });
 
 module.exports = Item = mongoose.model('items', ItemSchema);
