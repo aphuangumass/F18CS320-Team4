@@ -15,11 +15,12 @@ const ItemSchema = new Schema({
         required: true
     },
     osVersion: String,
+    capacity: [Number],
     updated: Date,
     authorized: JSON,
     date: Date,
     content: JSON,
-    capacity: [Number]
+    prev: [JSON]
 });
 
 module.exports = Item = mongoose.model('items', ItemSchema);
