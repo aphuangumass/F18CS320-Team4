@@ -22,7 +22,7 @@ function handleDownloadClick (e, row) {
   var url  = window.URL.createObjectURL(blob);
   var tempLink = document.createElement('a');
   tempLink.href = url;
-  tempLink.setAttribute('download', 'filename.json');
+  tempLink.setAttribute('download', row.row._original.name);
   tempLink.click();
 }
 
