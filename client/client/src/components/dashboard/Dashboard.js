@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
 import { Container, Row, Col } from 'react-grid-system';
 import Table from "../layout/Table";
-
+import './Dashboard.css';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -39,7 +39,7 @@ render() {
 return (
         <Container>
             <Col >
-              <div class="input-field inline">
+            <i class="input-field inline">
                 {/* <form onSubmit={this.handleSubmit}> */}
                   <label htmlFor="search_bar">Search Files...</label>
                   <input value={this.state.value} onChange={this.handleChange}
@@ -47,7 +47,7 @@ return (
                   {/* <button class="waves-effect waves-light btn-small" type="submit" name="action">Submit */}
                   {/* </button> */}
                   {/* </form> */}
-              </div>
+                </i>
             </Col>
           
           <Table tenant={user.tenant} name={user.name} search={this.state.value}/>
@@ -55,6 +55,7 @@ return (
     );
   }
 }
+
 Dashboard.propTypes = {
   logoutUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired

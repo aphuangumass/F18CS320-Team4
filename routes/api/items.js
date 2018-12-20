@@ -41,7 +41,7 @@ router.get('/list/:c', (req, res) => {
 // @desc    Create a Post
 // @access  Public
 router.post('/', (req, res) => {
-    const newItem = new Item({
+    var newItem = new Item({
         name: req.body.serialNumberInserv + '-' + new Date(req.body.updated).toISOString().substr(0, 10) + '.json',
         serial: req.body.serialNumberInserv,
         company: req.body.system.companyName,
@@ -53,9 +53,46 @@ router.post('/', (req, res) => {
         updated: req.body.updated,
         authorized: req.body.authorized,
         date: req.body.date,
-        content: req.body
+        content: req.body,
+        prev : []  // <<== should we change??
     });
+    // serial -> find row with that serial
+    // if that row exists, take content.
+    // replace all values in found item to NEW posted item from body ^ (including content)
+    // make new field "previous": [][], [0][0] date, [0][1] content
+    // => "previous" : [][] --- 
+    //[0][0] : date, [0][1] : content
+    //[1][0] : date, [1][1] : content
+    //[2][0] : date, [2][1] : content
+    // content: [req.body, (dbfound).content.floor]
+    let findFromTable = new Item();
+    let prevS = []
+    Item.find({serial: req.body.serialNumberInserv}).then(item=> {
+        //console.log(item)
+        if (item.length != 0) {
+            
+            
+            if(item[0].prev != null)
+                {
+                    newItem.prev = item[0].prev     
+                }
+            newItem.prev.push(item[0].content)  
+            console.log("------------------------")   
+            console.log(newItem)
+            Item.deleteOne({'serial': req.body.serialNumberInserv})
+
+            // push prev to prev 
+            // remove current item
+            // save new item
+            //item.udpate({ } )
+        }
+        console.log("Should have newly updated entry here")
+        
+                
+    }) 
+        
     newItem.save().then(item => res.json(item));
+    
 });
 
 // @route   DELETE api/items/:id
