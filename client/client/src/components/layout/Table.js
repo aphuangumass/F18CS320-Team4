@@ -7,7 +7,7 @@ import ReactJson from 'react-json-view'
 import { Container, Row, Col } from 'react-grid-system';
 import TableReadMe from '../layout/TableReadMe'
 import ReactTooltip from 'react-tooltip'
-
+import './Table.css'
 
 
 //handles button click
@@ -27,6 +27,7 @@ function handleDownloadClick (e, row) {
 }
 
 class Table extends Component {
+  
   state ={
     dbData: [],
     treeJSON: {},
@@ -96,6 +97,7 @@ class Table extends Component {
       accessor: d => new Date(d.date).toLocaleDateString('en-US', dateOptions)
     },{
       Header: <p data-tip="View JSON Tree next to the table." style={cellHeaderWrapper}>View</p>,
+      sortable:false,
       accessor: 'view-content',
       //creates a new component inside of this column in the table
       Cell : row => (
@@ -170,6 +172,7 @@ class Table extends Component {
       //   )}
     }, {
       Header: <p data-tip="Download JSON File to local machine." style={cellHeaderWrapper}>Download</p>,
+      sortable:false,
       accessor: 'content',
       //creates a new component inside of this column in the table
       Cell : row => (
@@ -183,6 +186,8 @@ class Table extends Component {
         <Row>
           <Col md={9.5}>
             <ReactTable
+              getTheadThProps={() => { return { style: { outline: 0, } }; }}
+              onSortedChange={(c, s) => { document.activeElement.blur() }}
               data={this.searchWithin(filter)}
               columns={columns}
               defaultPageSize = {10}
@@ -202,6 +207,9 @@ class Table extends Component {
     )
   }
 }
+
+
+
 const cellHeaderWrapper = {
   marginTop: '0',
   marginBottom: '0',

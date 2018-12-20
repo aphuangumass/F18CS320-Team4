@@ -38,15 +38,6 @@ render() {
     console.log(user);
 return (
         <Container>
-          
-            <Col>
-              <h4>
-                <b>Hey there,</b> {user.name.split(" ")[0]}
-                {/* THROWS TYPE ERROR.V */}
-                {/* <b>Full info</b> {user.tenant.join(', ')} */}
-                <p className="flow-text grey-text text-darken-1"></p>
-              </h4>
-            </Col>
             <Col >
               <div class="input-field inline">
                 {/* <form onSubmit={this.handleSubmit}> */}
