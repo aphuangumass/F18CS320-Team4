@@ -1,5 +1,29 @@
 # Snail Team 6 Project
 
+12/20/2018 Edit By Steven Tran
+This is the final version of the product by team 4 of the F18CS320 class. Although things may change as we present, this has been made by some of the newest programmers out there and those who put in the effort earned a lot. 
+
+Our current functionality is as follows
+1. Login features with encryption
+2. Databases shown by tenants of the files
+3. Live view of the database on the dashboard
+4. Browesable files with basic identification
+5. Tree view to look at specific systems on a file
+6. Downloading of individual files
+7. Alerts when specific capacity of an file is less than 30%
+
+What is buggy/missing
+1. Client-side searching and pagination are slow and is not scalable for the memory requested
+2. User authentication is lacking
+3. Alignment of components are fixed
+4. Searching is dynamic rather than explicit
+5. Features for managing and displaying past versions of files are implemented, but are not explicitly shown
+6. lack of snail puns
+
+Hopefully in the future, these missing features will be fixed, but right now the time constraints caused us to prioritize features on the charter.
+
+Happy holidays and cheers for all the all-nighters it took to make this!
+
 10/23/2018 Edit By Zach Lovvorn
 Clone'd repo in Vidual studio code instructions
 Hit F1, type "Git: Clone"
