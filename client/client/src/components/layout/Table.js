@@ -10,6 +10,7 @@ import ReactTooltip from 'react-tooltip'
 import './Table.css'
 
 
+
 //handles button click
 //grabs correct json from row and converts it to a string
 //creates blob to be downloaded
@@ -26,34 +27,78 @@ function handleDownloadClick (e, row) {
   tempLink.click();
 }
 
+// function requestData(pageNo, pageSize, tenant, search, sort){
+//   const addr = ('http://localhost:5000/api/items/tenants/' + tenant + '/search?pageNo=' + (pageNo + 1) + '&size=' + pageSize + '&str' + search)
+//   //  + '&str' + search)
+//   return axios.get(addr)
+//   .then(x => {
+//     let data = x.data.message
+//     let pages = x.data.pages
+
+//     const res = {
+//       rows: data,
+//       pages: pages
+//     };
+//     return res;
+//   })
+// }
+
+
+// var SortEnum = {new: 0, serial : 1, company : 2, model : 3, date : 4, capacity : 5}
+
+
 class Table extends Component {
   constructor() {
     super()
     this.state ={
       dbData: [],
+      pages: null,
+      loading: true,
+      sort: 0,
 
       treeJSON: {},
       showTree: false
     };
     // this.fetchData = this.fetchData.bind(this);
   }
+  
 
   // fetchData(state, instance) {
   //   // Whenever the table model changes, or the user sorts or changes pages, this method gets called and passed the current table model.
   //   // You can set the `loading` prop of the table to true to use the built-in one or show you're own loading bar if you want.
   //   this.setState({ loading: true });
-
-  //   axios.get('http://localhost:5000/api/items/tenants/' + this.props.tenant.join(',') + '/search/' + this.props.search)
-  //   .then(res => this.setState({
-  //     dbData: res.data,
-  //     loading: false
-  //   }))
+  //   requestData(
+  //     state.page,
+  //     state.pageSize,
+  //     this.props.tenant,
+  //     this.props.search,
+  //     state.sort
+  //   ).then(res => {
+  //     // Now just get the rows of data to your React Table (and update anything else like total pages or loading)
+  //     console.log(this.props.search)
+  //     this.setState({
+  //       dbData: res.rows,
+  //       pages: res.pages,
+  //       loading: false
+  //     });
+  //   });
   // }
+
+  searchWithin = (str) => {
+    return this.state.dbData.filter(entry => str === '' 
+    || (entry.serial !== null && entry.serial.toString().toUpperCase().includes(str))
+    || (entry.company !== '' && entry.company.toString().toUpperCase().includes(str))
+    || (entry.model !== null && entry.model.toString().toUpperCase().includes(str))
+    || (entry.fullModel !== null &&entry.fullModel.toString().toUpperCase().includes(str))
+    || (entry.osVersion !== null &&entry.osVersion.toString().toUpperCase().includes(str))
+    || (str.charAt(2) === '%' && Number(str.substring(0,2)) <= Math.floor((1 - entry.capacity[0]/entry.capacity[1]) * 100))
+    )
+  }
 
   handleViewClick (e, row) {
     var json = row.row._original.content;
     this.setState ({treeJSON: json});
-    console.log(this.state.treeJSON);
+    // console.log(this.state.treeJSON);
     this.setState ({showTree: true});
   }
 
@@ -62,40 +107,56 @@ class Table extends Component {
   }
 
   render() {
+    const {dbData, pages, loading} = this.state;
     // const filter = (this.props.search === '') ? '' : this.props.search.toString()
 
-    // DELETED "tenants/' + tenant.join(',')" FROM BELOW. ADD TO .../items/
-    axios.get('http://localhost:5000/api/items/tenants/' + this.props.tenant.join(',') + '/search/' + this.props.search)
-    .then(res => {if (this.state.dbData !== res.data) this.setState({dbData: res.data})})
+    // axios.get('http://localhost:5000/api/items/tenants/' + this.props.tenant.join(',') + '/search/' + this.props.search)
+    // .then(res => {if (this.state.dbData !== res.data) this.setState({dbData: res.data})})
 
     const name = this.props.name
-    // const filter = (this.props.search === '') ? '' : this.props.search.toString()
-
+    
     const dateOptions = {year: "numeric", month: "short", day: "numeric"};
 
     const columns = [{
       Header: <p data-tip="Serial number of this machine." style={cellHeaderWrapper}>Serial Number</p>,
       accessor: 'serial',
       className: 'center',
-      resizable: false
+      resizable: false,
+      sortMethod: (a, b) => {
+        this.setState({sort: SortEnum.serial})
+        return 0;
+      }
     }, {
       Header: <p data-tip="The company that is using the system." style={cellHeaderWrapper}>Company</p>,
       accessor: 'company',
       width: 140,
       // className: 'center',
-      resizable: false
+      resizable: false,
+      onClick: (e) => {
+        this.setState({sort: 1});
+        return 0;
+      }
 
     }, {
       Header: <p data-tip="Model of the system." style={cellHeaderWrapper}>Model</p>,
       accessor: 'fullModel',
       width: 130,
-      resizable: false
+      resizable: false,
+      onClick: (e) => {
+        this.setState({sort: 2});
+        return 0;
+      }
     }, {
-      Header: <p data-tip="The date in which each file was created." style={cellHeaderWrapper}>Date</p>,
+      Header: <p data-tip="The date in which each file was created." style={cellHeaderWrapper}>Date last Updated</p>,
       id: 'date',
       resizable: false,
+      width: 130,
+      onClick: (e) => {
+        this.setState({sort: 3})
+        return 0;
+      },
       accessor: d => new Date(d.date).toLocaleDateString('en-US', dateOptions)
-    },{
+    }, {
       Header: <p data-tip="View JSON Tree next to the table." style={cellHeaderWrapper}>View</p>,
       sortable: false,
       resizable: false,
@@ -109,9 +170,9 @@ class Table extends Component {
       Header: <p data-tip="Used capacity, red indicates that over 70% is used." style={cellHeaderWrapper}>Capacity Used</p>,
       accessor: 'capacityLeft',
       resizable: false,
-      sortMethod: (a, b) => {
-        // console.log(Number(a[0]),b[1])
-        return (a > b) ? 1 : -1;
+      onClick: (e) => {
+        this.setState({sort: 4})
+        return 0;
       },
       Cell: row => {
         if(row.value > 70)
@@ -191,7 +252,11 @@ class Table extends Component {
               getTheadThProps={() => { return { style: { outline: 0, } }; }}
               onSortedChange={(c, s) => { document.activeElement.blur() }}
 
-              data={this.state.dbData}
+              // manual
+              data={searchWithin(this.props.search)}
+              // pages={pages}
+              // loading={loading}
+              // onFetchData={this.fetchData}
 
               columns={columns}
               defaultPageSize = {10}
