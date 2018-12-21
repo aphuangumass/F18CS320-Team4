@@ -52,9 +52,9 @@ class Table extends Component {
     super()
     this.state ={
       dbData: [],
-      pages: null,
-      loading: true,
-      sort: 0,
+      // pages: null,
+      // loading: true,
+      // sort: 0,
 
       treeJSON: {},
       showTree: false
@@ -110,8 +110,9 @@ class Table extends Component {
     const {dbData, pages, loading} = this.state;
     // const filter = (this.props.search === '') ? '' : this.props.search.toString()
 
-    // axios.get('http://localhost:5000/api/items/tenants/' + this.props.tenant.join(',') + '/search/' + this.props.search)
-    // .then(res => {if (this.state.dbData !== res.data) this.setState({dbData: res.data})})
+    axios.get('http://localhost:5000/api/items/tenants/' + this.props.tenant.join(','))
+    // + '/search/' + this.props.search)
+    .then(res => {if (this.state.dbData !== res.data) this.setState({dbData: res.data})})
 
     const name = this.props.name
     
@@ -122,39 +123,39 @@ class Table extends Component {
       accessor: 'serial',
       className: 'center',
       resizable: false,
-      sortMethod: (a, b) => {
-        this.setState({sort: SortEnum.serial})
-        return 0;
-      }
+      // sortMethod: (a, b) => {
+      //   this.setState({sort: SortEnum.serial})
+      //   return 0;
+      // }
     }, {
       Header: <p data-tip="The company that is using the system." style={cellHeaderWrapper}>Company</p>,
       accessor: 'company',
       width: 140,
       // className: 'center',
       resizable: false,
-      onClick: (e) => {
-        this.setState({sort: 1});
-        return 0;
-      }
+      // onClick: (e) => {
+      //   this.setState({sort: 1});
+      //   return 0;
+      // }
 
     }, {
       Header: <p data-tip="Model of the system." style={cellHeaderWrapper}>Model</p>,
       accessor: 'fullModel',
       width: 130,
       resizable: false,
-      onClick: (e) => {
-        this.setState({sort: 2});
-        return 0;
-      }
+      // onClick: (e) => {
+      //   this.setState({sort: 2});
+      //   return 0;
+      // }
     }, {
       Header: <p data-tip="The date in which each file was created." style={cellHeaderWrapper}>Date last Updated</p>,
       id: 'date',
       resizable: false,
       width: 130,
-      onClick: (e) => {
-        this.setState({sort: 3})
-        return 0;
-      },
+      // onClick: (e) => {
+      //   this.setState({sort: 3})
+      //   return 0;
+      // },
       accessor: d => new Date(d.date).toLocaleDateString('en-US', dateOptions)
     }, {
       Header: <p data-tip="View JSON Tree next to the table." style={cellHeaderWrapper}>View</p>,
@@ -170,10 +171,13 @@ class Table extends Component {
       Header: <p data-tip="Used capacity, red indicates that over 70% is used." style={cellHeaderWrapper}>Capacity Used</p>,
       accessor: 'capacityLeft',
       resizable: false,
-      onClick: (e) => {
-        this.setState({sort: 4})
-        return 0;
+      sortMethod: (a, b) => {
+        return (a > b) ? -1 : 1
       },
+      // onClick: (e) => {
+      //   this.setState({sort: 4})
+      //   return 0;
+      // },
       Cell: row => {
         if(row.value > 70)
         return(
@@ -253,7 +257,7 @@ class Table extends Component {
               onSortedChange={(c, s) => { document.activeElement.blur() }}
 
               // manual
-              data={searchWithin(this.props.search)}
+              data={this.searchWithin(this.props.search.toString().toUpperCase())}
               // pages={pages}
               // loading={loading}
               // onFetchData={this.fetchData}

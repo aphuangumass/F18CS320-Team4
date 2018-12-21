@@ -23,7 +23,7 @@ router.get('/tenants/:c/searchByKey/:type/:id', (req, res) => {
 // @route   GET api/data/tenants/:tenant/items/:type/:id
 // @desc    Get db entries have a "type" with an "id"
 // @access  Public
-router.get('/tenants/:c/search', (req, res) => {
+router.get('/tenants/:c', (req, res) => {
     Item.find({"authorized.tenants" : {$in: req.params.c.split(',')}})
         .then(item => res.set({'Content-Type': 'application/json; charset=utf-8'}).send(JSON.stringify(item, null, 4)))
 });
