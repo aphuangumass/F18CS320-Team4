@@ -12,7 +12,7 @@ import {
 export const registerUser = (userData, history) => dispatch => {
   console.log("fetching");
   axios
-    .post("http://54.87.21.5:5000/api/users/register", userData)
+    .post("http://3.84.151.33:5000/api/users/register", userData)
     .then(res => history.push("/login")) // re-direct to login on successful register
     .catch(err =>
       dispatch({
@@ -25,7 +25,7 @@ export const registerUser = (userData, history) => dispatch => {
 // Login - get user token
 export const loginUser = userData => dispatch => {
   axios
-    .post("http://54.87.21.5:5000/api/users/login", userData)
+    .post("http://3.84.151.33:5000/api/users/login", userData)
     .then(res => {
       // Save to localStorage
 // Set token to localStorage
@@ -57,7 +57,7 @@ export const setCurrentUser = decoded => {
 export const getCurrentUser = () => dispatch => {
   dispatch(setUserLoading());
   axios
-    .get("http://54.87.21.5:5000/api/user/currentuser")
+    .get("http://3.84.151.33:5000/api/user/currentuser")
     .then(res =>
       dispatch({
         type: GET_CURRENT_USER,

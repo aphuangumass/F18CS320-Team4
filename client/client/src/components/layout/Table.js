@@ -65,7 +65,7 @@ class Table extends Component {
     // const filter = (this.props.search === '') ? '' : this.props.search.toString()
 
     // DELETED "tenants/' + tenant.join(',')" FROM BELOW. ADD TO .../items/
-    axios.get('http://54.87.21.5:5000/api/items/tenants/' + this.props.tenant.join(',') + '/search/' + this.props.search)
+    axios.get('http://3.84.151.33:5000/api/items/tenants/' + this.props.tenant.join(',') + '/search/' + this.props.search)
     .then(res => {if (this.state.dbData !== res.data) this.setState({dbData: res.data})})
 
     const name = this.props.name
